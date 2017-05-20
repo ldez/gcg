@@ -87,16 +87,14 @@ func run(config *Configuration) {
 
 	// Get previous ref date
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
+
 	datePreviousRef := commitPreviousRef.Commit.Author.Date.Format("2006-01-02T15:04:05Z")
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
+
 	dateCurrentRef := commitCurrentRef.Commit.Author.Date.Format("2006-01-02T15:04:05Z")
 
 	// Search PR
@@ -158,47 +156,41 @@ func display(config *Configuration, allSearchResult []github.Issue, commitCurren
 
 	summary.PreviousRefName = config.PreviousRef
 
-	//// TODO All PR?
 	//// TODO Milestone?
 
-	viewTemplate := `
+	viewTemplate := `{{define "LineTemplate"}}- {{.Title |html}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}})){{end}}
 ## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
-
 [All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
 
 {{if .Enhancement -}}
 Enhancements:
 {{range .Enhancement -}}
-- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 {{if .Bug -}}
 Bug fixes:
 {{range .Bug -}}
-- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 {{if .Documentation -}}
 Documentation:
 {{range .Documentation -}}
-- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 {{if .Other -}}
 Misc:
 {{range .Other -}}
-- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 	`
 	tmplt, err := template.New("ChangeLog").Parse(viewTemplate)
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
 	err = tmplt.Execute(os.Stdout, summary)
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
 }
 
 func contains(labels []github.Label, str string) bool {
@@ -208,4 +200,9 @@ func contains(labels []github.Label, str string) bool {
 		}
 	}
 	return false
+}
+func check(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
