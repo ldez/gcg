@@ -29,7 +29,6 @@ type Configuration struct {
 	Owner                string `short:"o" description:"Repository owner."`
 	RepositoryName       string `long:"repo-name" short:"r" description:"Repository name."`
 	GitHubToken          string `long:"token" short:"t" description:"GitHub Token"`
-	Milestone            string `short:"m" description:""`
 	LabelExclude         string `long:"exclude-label" description:"Label to exclude."`
 	LabelEnhancement     string `long:"enhancement-label" description:"Enhancement Label."`
 	LabelDocumentation   string `long:"doc-label" description:"Documentation Label."`
