@@ -34,7 +34,7 @@ type Configuration struct {
 	LabelEnhancement     string `long:"enhancement-label" description:"Enhancement Label."`
 	LabelDocumentation   string `long:"doc-label" description:"Documentation Label."`
 	LabelBug             string `long:"bug-label" description:"Bug Label."`
-	OutputDestination    string `long:"output-type" description:"Output destination type. (file|Stdout)"`
+	OutputType           string `long:"output-type" description:"Output destination type. (file|Stdout)"`
 	FileName             string `long:"file-name" description:"Name of the changelog file."`
 	Debug                bool   `long:"debug" description:"Debug mode."`
 }
@@ -58,7 +58,7 @@ func main() {
 		LabelEnhancement:   DefaultEnhancementLabel,
 		LabelDocumentation: DefaultDocumentationLabel,
 		LabelBug:           DefaultBugLabel,
-		OutputDestination:  DefaultOutputDestination,
+		OutputType:         DefaultOutputDestination,
 		FileName:           DefaultFileName,
 	}
 
@@ -204,7 +204,7 @@ func display(config *Configuration, allSearchResult []github.Issue, commitCurren
 	tmplt := template.Must(template.New("ChangeLog").Parse(viewTemplate))
 
 	var wr io.Writer
-	if config.OutputDestination == "file" {
+	if config.OutputType == "file" {
 		file, err := os.Create(config.FileName)
 		defer file.Close()
 		check(err)
