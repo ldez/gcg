@@ -34,7 +34,7 @@ type Configuration struct {
 	LabelDocumentation   string `long:"doc-label" description:"Documentation Label."`
 	LabelBug             string `long:"bug-label" description:"Bug Label."`
 	OutputDestination    string `long:"output-type" description:"Output destination type. (file|Stdout)"`
-	Debug                bool `long:"debug" description:"Debug mode."`
+	Debug                bool   `long:"debug" description:"Debug mode."`
 }
 
 type Summary struct {
@@ -168,7 +168,7 @@ func display(config *Configuration, allSearchResult []github.Issue, commitCurren
 
 	//// TODO Milestone?
 
-	viewTemplate := `{{define "LineTemplate"}}- {{.Title |html}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}})){{end}}
+	viewTemplate := `{{define "LineTemplate"}}- [#{{.Number}}]({{.URL}}) {{.Title |html}} ([{{.User.Login}}]({{.User.URL}})){{end}}
 ## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
 [All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
 
