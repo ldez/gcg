@@ -1,0 +1,2 @@
+# GCG - GitHub Changelog Generator
+
