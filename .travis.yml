@@ -12,3 +12,12 @@ addons:
     - glide
 
 install: make dependencies
+
+deploy:
+  - provider: releases
+    api_key: ${GITHUB_TOKEN}
+    file: gcg
+    skip_cleanup: true
+    file_glob: true
+    on:
+      tags: true
