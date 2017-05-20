@@ -19,6 +19,7 @@ const (
 	DefaultDocumentationLabel = "documentation"
 	DefaultBugLabel           = "bug"
 	DefaultOutputDestination  = "file"
+	DefaultFileName           = "CHANGELOG.md"
 )
 
 type Configuration struct {
@@ -34,6 +35,7 @@ type Configuration struct {
 	LabelDocumentation   string `long:"doc-label" description:"Documentation Label."`
 	LabelBug             string `long:"bug-label" description:"Bug Label."`
 	OutputDestination    string `long:"output-type" description:"Output destination type. (file|Stdout)"`
+	FileName             string `long:"file-name" description:"Name of the changelog file."`
 	Debug                bool   `long:"debug" description:"Debug mode."`
 }
 
@@ -57,6 +59,7 @@ func main() {
 		LabelDocumentation: DefaultDocumentationLabel,
 		LabelBug:           DefaultBugLabel,
 		OutputDestination:  DefaultOutputDestination,
+		FileName:           DefaultFileName,
 	}
 
 	rootCmd := &flaeg.Command{
@@ -202,7 +205,7 @@ func display(config *Configuration, allSearchResult []github.Issue, commitCurren
 
 	var wr io.Writer
 	if config.OutputDestination == "file" {
-		file, err := os.Create("CHANGELOG.md")
+		file, err := os.Create(config.FileName)
 		defer file.Close()
 		check(err)
 		wr = file
