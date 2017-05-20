@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"os"
 
@@ -17,21 +18,23 @@ const (
 	DefaultEnhancementLabel   = "enhancement"
 	DefaultDocumentationLabel = "documentation"
 	DefaultBugLabel           = "bug"
+	DefaultOutputDestination  = "file"
 )
 
 type Configuration struct {
 	CurrentRef           string `long:"current-ref" short:"c" description:"Current commit reference. Can be a tag, a branch, a SHA."`
 	PreviousRef          string `long:"previous-ref" short:"p" description:"Previous commit reference. Can be a tag, a branch, a SHA."`
 	BaseBranch           string `long:"base-branch" short:"b" description:"Base branch name. PR branch destination."`
-	FutureCurrentRefName string `long:"future-ref-name" short:"f" description:"TODO"`
+	FutureCurrentRefName string `long:"future-ref-name" short:"f" description:"The future name of the current reference."`
 	Owner                string `short:"o" description:"Repository owner."`
 	RepositoryName       string `long:"repo-name" short:"r" description:"Repository name."`
-	GithubToken          string `long:"token" short:"t" description:"GitHub Token"`
+	GitHubToken          string `long:"token" short:"t" description:"GitHub Token"`
 	Milestone            string `short:"m" description:""`
-	LabelExclude         string `long:"exclude-label" short:"ex" description:"Label to exclude."`
-	LabelEnhancement     string `long:"enhancement-label" short:"el" description:"Enhancement Label."`
-	LabelDocumentation   string `long:"doc-label" short:"dl" description:"Documentation Label."`
-	LabelBug             string `long:"bug-label" short:"bl" description:"Bug Label."`
+	LabelExclude         string `long:"exclude-label" description:"Label to exclude."`
+	LabelEnhancement     string `long:"enhancement-label" description:"Enhancement Label."`
+	LabelDocumentation   string `long:"doc-label" description:"Documentation Label."`
+	LabelBug             string `long:"bug-label" description:"Bug Label."`
+	OutputDestination    string `long:"output-type" description:"Output destination type. (file|Stdout)"`
 }
 
 type Summary struct {
@@ -53,6 +56,7 @@ func main() {
 		LabelEnhancement:   DefaultEnhancementLabel,
 		LabelDocumentation: DefaultDocumentationLabel,
 		LabelBug:           DefaultBugLabel,
+		OutputDestination:  DefaultOutputDestination,
 	}
 
 	rootCmd := &flaeg.Command{
@@ -75,11 +79,11 @@ func run(config *Configuration) {
 	ctx := context.Background()
 
 	var client *github.Client
-	if len(config.GithubToken) == 0 {
+	if len(config.GitHubToken) == 0 {
 		client = github.NewClient(nil)
 	} else {
 		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: config.GithubToken},
+			&oauth2.Token{AccessToken: config.GitHubToken},
 		)
 		tc := oauth2.NewClient(ctx, ts)
 		client = github.NewClient(tc)
@@ -187,9 +191,19 @@ Misc:
 {{end}}
 {{- end}}
 	`
-	tmplt, err := template.New("ChangeLog").Parse(viewTemplate)
-	check(err)
-	err = tmplt.Execute(os.Stdout, summary)
+
+	tmplt := template.Must(template.New("ChangeLog").Parse(viewTemplate))
+
+	var wr io.Writer
+	if config.OutputDestination == "file" {
+		wr, err := os.Create("CHANGELOG.md")
+		defer wr.Close()
+		check(err)
+	} else {
+		wr = os.Stdout
+	}
+
+	err := tmplt.Execute(wr, summary)
 	check(err)
 }
 
