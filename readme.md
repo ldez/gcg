@@ -12,17 +12,19 @@ Usage: gcg [--flag=flag_argument] [-f[flag_argument]] ...     set flag_argument 
 Flags:
 -b, --base-branch       Base branch name. PR branch destination.                  (default "master")
     --bug-label         Bug Label.                                                (default "bug")
--c, --current-ref       Current commit reference. Can be a tag, a branch, a SHA.  
+-c, --current-ref       Current commit reference. Can be a tag, a branch, a SHA.
+    --debug             Debug mode.                                               (default "false")
     --doc-label         Documentation Label.                                      (default "documentation")
     --enhancement-label Enhancement Label.                                        (default "enhancement")
-    --exclude-label     Label to exclude.                                         
--f, --future-ref-name   The future name of the current reference.                 
+    --exclude-label     Label to exclude.
+    --file-name         Name of the changelog file.                               (default "CHANGELOG.md")
+-f, --future-ref-name   The future name of the current reference.
     --output-type       Output destination type. (file|Stdout)                    (default "file")
--o, --owner             Repository owner.                                         
--p, --previous-ref      Previous commit reference. Can be a tag, a branch, a SHA. 
--r, --repo-name         Repository name.                                          
--t, --token             GitHub Token                                              
--h, --help              Print Help (this message) and exit  
+-o, --owner             Repository owner.
+-p, --previous-ref      Previous commit reference. Can be a tag, a branch, a SHA.
+-r, --repo-name         Repository name.
+-t, --token             GitHub Token
+-h, --help              Print Help (this message) and exit
 ```
 
 ## Examples
@@ -35,7 +37,7 @@ Flags:
 
 ex: for the (non-existing) next version 1.4.0-rc1
 ```bash
-go run gcg.go -c"master" -p"v1.3.0-rc1" -f"v1.4.0-rc1" -b"master" \
+./gcg -c"master" -p"v1.3.0-rc1" -f"v1.4.0-rc1" -b"master" \
 -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
 --exclude-label="area/infrastructure" --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
@@ -45,7 +47,7 @@ go run gcg.go -c"master" -p"v1.3.0-rc1" -f"v1.4.0-rc1" -b"master" \
 
 ex: for the (non-existing) version 1.3.0-rc2
 ```bash
-go run gcg.go -c"v1.3" -p"v1.3.0-rc1" -b"v1.3" \
+./gcg -c"v1.3" -p"v1.3.0-rc1" -f"v1.3.0-rc2" -b"v1.3" \
 -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
 --exclude-label="area/infrastructure" --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
@@ -55,7 +57,7 @@ go run gcg.go -c"v1.3" -p"v1.3.0-rc1" -b"v1.3" \
 
 ex: for the (existing) version 1.3.0-rc1
 ```bash
-go run gcg.go -c"v1.3.0-rc1" -p"v1.2.0-rc1" -b"master" \
+./gcg -c"v1.3.0-rc1" -p"v1.2.0-rc1" -b"master" \
 -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
 --exclude-label="area/infrastructure" --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
@@ -65,7 +67,7 @@ go run gcg.go -c"v1.3.0-rc1" -p"v1.2.0-rc1" -b"master" \
 
 ex: for the (existing) version 1.3.0-rc2
 ```bash
-go run gcg.go -c"v1.3.0-rc2" -p"v1.3.0-rc1" -b"v1.3" \
+./gcg -c"v1.3.0-rc2" -p"v1.3.0-rc1" -b"v1.3" \
 -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
 --exclude-label="area/infrastructure" --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
