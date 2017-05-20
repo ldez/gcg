@@ -95,13 +95,13 @@ func run(config *Configuration) {
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
 	check(err)
 
-	datePreviousRef := commitPreviousRef.Commit.Author.Date.Format("2006-01-02T15:04:05Z")
+	datePreviousRef := commitPreviousRef.Commit.Committer.Date.Format("2006-01-02T15:04:05Z")
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
 	check(err)
 
-	dateCurrentRef := commitCurrentRef.Commit.Author.Date.Format("2006-01-02T15:04:05Z")
+	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Format("2006-01-02T15:04:05Z")
 
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
