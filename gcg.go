@@ -78,7 +78,7 @@ The generator use only Pull Requests.
 			required(config.Owner, "owner")
 			required(config.RepositoryName, "repo-name")
 
-			run(config)
+			generate(config)
 			return nil
 		},
 	}
@@ -87,19 +87,10 @@ The generator use only Pull Requests.
 	flag.Run()
 }
 
-func run(config *Configuration) {
+func generate(config *Configuration) {
 	ctx := context.Background()
 
-	var client *github.Client
-	if len(config.GitHubToken) == 0 {
-		client = github.NewClient(nil)
-	} else {
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: config.GitHubToken},
-		)
-		tc := oauth2.NewClient(ctx, ts)
-		client = github.NewClient(tc)
-	}
+	client := newGitHubClient(ctx, config.GitHubToken)
 
 	// Get previous ref date
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
@@ -126,6 +117,11 @@ func run(config *Configuration) {
 		ListOptions: github.ListOptions{PerPage: 20},
 	}
 
+	allSearchResult := searchAllIssues(ctx, client, query, searchOptions, config)
+	display(config, allSearchResult, commitCurrentRef)
+}
+
+func searchAllIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions, config *Configuration) []github.Issue {
 	var allSearchResult []github.Issue
 	for {
 		issuesSearchResult, resp, err := client.Search.Issues(ctx, query, searchOptions)
@@ -146,7 +142,7 @@ func run(config *Configuration) {
 		}
 		searchOptions.Page = resp.NextPage
 	}
-	display(config, allSearchResult, commitCurrentRef)
+	return allSearchResult
 }
 
 func display(config *Configuration, allSearchResult []github.Issue, commitCurrentRef *github.RepositoryCommit) {
@@ -167,7 +163,7 @@ func display(config *Configuration, allSearchResult []github.Issue, commitCurren
 		}
 	}
 
-	summary.CurrentRefDate = commitCurrentRef.Commit.Author.Date.Format("2006-01-02")
+	summary.CurrentRefDate = commitCurrentRef.Commit.Committer.Date.Format("2006-01-02")
 	if len(config.FutureCurrentRefName) == 0 {
 		summary.CurrentRefName = config.CurrentRef
 	} else {
@@ -222,6 +218,20 @@ func display(config *Configuration, allSearchResult []github.Issue, commitCurren
 
 	err := tmplt.Execute(wr, summary)
 	check(err)
+}
+
+func newGitHubClient(ctx context.Context, token string) *github.Client {
+	var client *github.Client
+	if len(token) == 0 {
+		client = github.NewClient(nil)
+	} else {
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: token},
+		)
+		tc := oauth2.NewClient(ctx, ts)
+		client = github.NewClient(tc)
+	}
+	return client
 }
 
 func contains(labels []github.Label, str string) bool {
