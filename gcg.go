@@ -167,25 +167,25 @@ func display(config *Configuration, allSearchResult []github.Issue, commitCurren
 [All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
 
 {{if .Enhancement -}}
-Enhancements:
+**Enhancements:**
 {{range .Enhancement -}}
 {{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 {{if .Bug -}}
-Bug fixes:
+**Bug fixes:**
 {{range .Bug -}}
 {{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 {{if .Documentation -}}
-Documentation:
+**Documentation:**
 {{range .Documentation -}}
 {{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 {{if .Other -}}
-Misc:
+**Misc:**
 {{range .Other -}}
 {{template "LineTemplate" .}}
 {{end}}
