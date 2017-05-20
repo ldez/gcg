@@ -71,6 +71,11 @@ func main() {
 			if config.Debug {
 				log.Printf("Run GCG command with config : %+v\n", config)
 			}
+			required(config.CurrentRef, "current-ref")
+			required(config.PreviousRef, "previous-ref")
+			required(config.Owner, "owner")
+			required(config.RepositoryName, "repo-name")
+
 			run(config)
 			return nil
 		},
@@ -225,8 +230,16 @@ func contains(labels []github.Label, str string) bool {
 	}
 	return false
 }
+
 func check(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func required(field string, fieldName string) error {
+	if len(field) == 0 {
+		log.Fatalf("%s is mandatory.", fieldName)
+	}
+	return nil
 }
