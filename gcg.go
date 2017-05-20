@@ -65,7 +65,7 @@ func main() {
 		Config:                config,
 		DefaultPointersConfig: &Configuration{},
 		Run: func() error {
-			fmt.Printf("Run GCG command with config : %+v\n", config)
+			//log.Printf("Run GCG command with config : %+v\n", config)
 			run(config)
 			return nil
 		},
@@ -196,9 +196,10 @@ Misc:
 
 	var wr io.Writer
 	if config.OutputDestination == "file" {
-		wr, err := os.Create("CHANGELOG.md")
-		defer wr.Close()
+		file, err := os.Create("CHANGELOG.md")
+		defer file.Close()
 		check(err)
+		wr = file
 	} else {
 		wr = os.Stdout
 	}
