@@ -34,6 +34,7 @@ type Configuration struct {
 	LabelDocumentation   string `long:"doc-label" description:"Documentation Label."`
 	LabelBug             string `long:"bug-label" description:"Bug Label."`
 	OutputDestination    string `long:"output-type" description:"Output destination type. (file|Stdout)"`
+	Debug                bool `long:"debug" description:"Debug mode."`
 }
 
 type Summary struct {
@@ -64,7 +65,9 @@ func main() {
 		Config:                config,
 		DefaultPointersConfig: &Configuration{},
 		Run: func() error {
-			//log.Printf("Run GCG command with config : %+v\n", config)
+			if config.Debug {
+				log.Printf("Run GCG command with config : %+v\n", config)
+			}
 			run(config)
 			return nil
 		},
@@ -103,7 +106,9 @@ func run(config *Configuration) {
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
 		config.Owner, config.RepositoryName, config.BaseBranch, datePreviousRef, dateCurrentRef)
-	log.Println(query)
+	if config.Debug {
+		log.Println(query)
+	}
 
 	searchOptions := &github.SearchOptions{
 		Sort:        "created",
@@ -119,7 +124,9 @@ func run(config *Configuration) {
 		}
 		for _, issueResult := range issuesSearchResult.Issues {
 			if contains(issueResult.Labels, config.LabelExclude) {
-				//log.Println("Exclude:", *issueResult.Number, *issueResult.Title)
+				if config.Debug {
+					log.Println("Exclude:", *issueResult.Number, *issueResult.Title)
+				}
 			} else {
 				allSearchResult = append(allSearchResult, issueResult)
 			}
