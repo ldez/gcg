@@ -63,8 +63,10 @@ func main() {
 	}
 
 	rootCmd := &flaeg.Command{
-		Name:                  "gcg",
-		Description:           `GCG is a GitHub Changelog Generator.`,
+		Name: "gcg",
+		Description: `GCG is a GitHub Changelog Generator.
+The generator use only Pull Requests.
+		`,
 		Config:                config,
 		DefaultPointersConfig: &Configuration{},
 		Run: func() error {
