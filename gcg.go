@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
+	"github.com/containous/flaeg"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 )
@@ -18,17 +20,18 @@ const (
 )
 
 type Configuration struct {
-	CurrentRef         string `description:"Current commit reference. Can be a tag, a branch, a SHA."`
-	PreviousRef        string `description:"Previous commit reference. Can be a tag, a branch, a SHA."`
-	BaseBranch         string `description:"Base branch name. PR branch destination."`
-	Owner              string `description:"Repository owner."`
-	RepositoryName     string `description:"Repository name."`
-	GithubToken        string `description:"GitHub Token"`
-	Milestone          string `description:""`
-	LabelExclude       string `description:""`
-	LabelEnhancement   string `description:""`
-	LabelDocumentation string `description:""`
-	LabelBug           string `description:""`
+	CurrentRef           string `long:"current-ref" short:"c" description:"Current commit reference. Can be a tag, a branch, a SHA."`
+	PreviousRef          string `long:"previous-ref" short:"p" description:"Previous commit reference. Can be a tag, a branch, a SHA."`
+	BaseBranch           string `long:"base-branch" short:"b" description:"Base branch name. PR branch destination."`
+	FutureCurrentRefName string `long:"future-ref-name" short:"f" description:"TODO"`
+	Owner                string `short:"o" description:"Repository owner."`
+	RepositoryName       string `long:"repo-name" short:"r" description:"Repository name."`
+	GithubToken          string `long:"token" short:"t" description:"GitHub Token"`
+	Milestone            string `short:"m" description:""`
+	LabelExclude         string `long:"exclude-label" short:"ex" description:"Label to exclude."`
+	LabelEnhancement     string `long:"enhancement-label" short:"el" description:"Enhancement Label."`
+	LabelDocumentation   string `long:"doc-label" short:"dl" description:"Documentation Label."`
+	LabelBug             string `long:"bug-label" short:"bl" description:"Bug Label."`
 }
 
 type pullRequestSummary struct {
@@ -39,19 +42,31 @@ type pullRequestSummary struct {
 }
 
 func main() {
+
 	config := &Configuration{
-		CurrentRef:         "v1.3.0-rc1",
-		PreviousRef:        "v1.2.0-rc1",
-		BaseBranch:         "master",
-		Owner:              "containous",
-		RepositoryName:     "traefik",
-		GithubToken:        "",
-		LabelExclude:       "area/infrastructure",
-		LabelEnhancement:   "kind/enhancement",
-		LabelDocumentation: "area/documentation",
-		LabelBug:           "kind/bug/fix",
+		BaseBranch:         DefaultBaseBranch,
+		LabelEnhancement:   DefaultEnhancementLabel,
+		LabelDocumentation: DefaultDocumentationLabel,
+		LabelBug:           DefaultBugLabel,
 	}
 
+	rootCmd := &flaeg.Command{
+		Name:                  "gcg",
+		Description:           `GCG is a GitHub Changelog Generator.`,
+		Config:                config,
+		DefaultPointersConfig: &Configuration{},
+		Run: func() error {
+			fmt.Printf("Run GCG command with config : %+v\n", config)
+			run(config)
+			return nil
+		},
+	}
+
+	flag := flaeg.New(rootCmd, os.Args[1:])
+	flag.Run()
+}
+
+func run(config *Configuration) {
 	ctx := context.Background()
 
 	var client *github.Client
@@ -127,10 +142,11 @@ func main() {
 	fmt.Printf("## [%s](TODO) (%s)\n\n", config.CurrentRef, commitCurrentRef.Commit.Author.Date.Format("2006-01-02"))
 
 	// All commits
-	fmt.Printf("[All Commits](https://github.com/%s/%s/compare/%s...%s\n)",
+	fmt.Printf("[All Commits](https://github.com/%s/%s/compare/%s...%s)\n",
 		config.Owner, config.RepositoryName, config.PreviousRef, config.CurrentRef)
 	// TODO All PR?
 	// TODO Milestone?
+	//client.Issues.GetMilestone()
 	// https://github.com/containous/traefik/milestone/5 <- ID not text
 	fmt.Printf("Milestone [%s](TODO)\n", config.Milestone)
 	fmt.Println("")

@@ -3,3 +3,5 @@ import:
 - package: github.com/google/go-github
 - package: github.com/google/go-querystring
 - package: golang.org/x/oauth2
+- package: github.com/containous/flaeg
+- package: github.com/ogier/pflag

@@ -1,6 +1,8 @@
-hash: f096d5e25e43001068ae6b56bcc167d2b52ea77ca484ce63cd836ece374f2ebb
-updated: 2017-05-20T13:11:06.471391005+02:00
+hash: 0a7885f980c797ba53852d31ca35173d222daa40bab65aa224b0e785d72fb835
+updated: 2017-05-20T13:41:35.048555603+02:00
 imports:
+- name: github.com/containous/flaeg
+  version: a731c034dda967333efce5f8d276aeff11f8ff87
 - name: github.com/golang/protobuf
   version: 18c9bb3261723cd5401db4d0c9fbc5c3b6c70fe8
   subpackages:
@@ -13,6 +15,8 @@ imports:
   version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
   subpackages:
   - query
+- name: github.com/ogier/pflag
+  version: 45c278ab3607870051a2ea9040bb85fcb8557481
 - name: golang.org/x/net
   version: 242b6b35177ec3909636b6cf6a47e8c2c6324b5d
   subpackages:
