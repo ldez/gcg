@@ -1,5 +1,8 @@
 # GCG - GitHub Changelog Generator
 
+[![Build Status](https://travis-ci.org/ldez/gcg.svg?branch=master)](https://travis-ci.org/ldez/gcg)
+
+
 ```shell
 GCG is a GitHub Changelog Generator.
 	
