@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"html/template"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/containous/flaeg"
 	"github.com/google/go-github/github"
@@ -34,11 +34,16 @@ type Configuration struct {
 	LabelBug             string `long:"bug-label" short:"bl" description:"Bug Label."`
 }
 
-type pullRequestSummary struct {
-	enhancement   []string
-	documentation []string
-	bug           []string
-	other         []string
+type Summary struct {
+	CurrentRefName  string
+	CurrentRefDate  string
+	PreviousRefName string
+	Owner           string
+	RepositoryName  string
+	Enhancement     []github.Issue
+	Documentation   []github.Issue
+	Bug             []github.Issue
+	Other           []github.Issue
 }
 
 func main() {
@@ -97,7 +102,7 @@ func run(config *Configuration) {
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
 		config.Owner, config.RepositoryName, config.BaseBranch, datePreviousRef, dateCurrentRef)
-	fmt.Println(query)
+	log.Println(query)
 
 	searchOptions := &github.SearchOptions{
 		Sort:        "created",
@@ -111,76 +116,88 @@ func run(config *Configuration) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		allSearchResult = append(allSearchResult, issuesSearchResult.Issues...)
+		for _, issueResult := range issuesSearchResult.Issues {
+			if contains(issueResult.Labels, config.LabelExclude) {
+				//log.Println("Exclude:", *issueResult.Number, *issueResult.Title)
+			} else {
+				allSearchResult = append(allSearchResult, issueResult)
+			}
+		}
 		if resp.NextPage == 0 {
 			break
 		}
 		searchOptions.Page = resp.NextPage
 	}
+	display(config, allSearchResult, commitCurrentRef)
+}
 
-	summary := &pullRequestSummary{}
+func display(config *Configuration, allSearchResult []github.Issue, commitCurrentRef *github.RepositoryCommit) {
+	summary := &Summary{
+		Owner:          config.Owner,
+		RepositoryName: config.RepositoryName,
+	}
 
-	// Get PR information
 	for _, issueResult := range allSearchResult {
-		line := fmt.Sprintf("- %s [#%v](%s) ([%s](%s))",
-			strings.TrimSpace(*issueResult.Title), *issueResult.Number, *issueResult.URL, *issueResult.User.Login, *issueResult.User.URL)
-
-		if contains(issueResult.Labels, config.LabelExclude) {
-			// skip
-			fmt.Println("Exclude:", *issueResult.Number, *issueResult.Title)
-		} else if contains(issueResult.Labels, config.LabelDocumentation) {
-			summary.documentation = append(summary.documentation, line)
+		if contains(issueResult.Labels, config.LabelDocumentation) {
+			summary.Documentation = append(summary.Documentation, issueResult)
 		} else if contains(issueResult.Labels, config.LabelEnhancement) {
-			summary.enhancement = append(summary.enhancement, line)
+			summary.Enhancement = append(summary.Enhancement, issueResult)
 		} else if contains(issueResult.Labels, config.LabelBug) {
-			summary.bug = append(summary.bug, line)
+			summary.Bug = append(summary.Bug, issueResult)
 		} else {
-			summary.other = append(summary.other, line)
+			summary.Other = append(summary.Other, issueResult)
 		}
 	}
 
-	fmt.Printf("## [%s](TODO) (%s)\n\n", config.CurrentRef, commitCurrentRef.Commit.Author.Date.Format("2006-01-02"))
-
-	// All commits
-	fmt.Printf("[All Commits](https://github.com/%s/%s/compare/%s...%s)\n",
-		config.Owner, config.RepositoryName, config.PreviousRef, config.CurrentRef)
-	// TODO All PR?
-	// TODO Milestone?
-	//client.Issues.GetMilestone()
-	// https://github.com/containous/traefik/milestone/5 <- ID not text
-	fmt.Printf("Milestone [%s](TODO)\n", config.Milestone)
-	fmt.Println("")
-
-	if len(summary.enhancement) != 0 {
-		fmt.Println("Enhancements:")
-		for _, p := range summary.enhancement {
-			fmt.Println(p)
-		}
-		fmt.Println("")
+	summary.CurrentRefDate = commitCurrentRef.Commit.Author.Date.Format("2006-01-02")
+	if len(config.FutureCurrentRefName) == 0 {
+		summary.CurrentRefName = config.CurrentRef
+	} else {
+		summary.CurrentRefName = config.FutureCurrentRefName
 	}
 
-	if len(summary.bug) != 0 {
-		fmt.Println("Bug fixes:")
-		for _, p := range summary.bug {
-			fmt.Println(p)
-		}
-		fmt.Println("")
-	}
+	summary.PreviousRefName = config.PreviousRef
 
-	if len(summary.documentation) != 0 {
-		fmt.Println("Documentation:")
-		for _, p := range summary.documentation {
-			fmt.Println(p)
-		}
-		fmt.Println("")
-	}
+	//// TODO All PR?
+	//// TODO Milestone?
 
-	if len(summary.other) != 0 {
-		fmt.Println("Others:")
-		for _, p := range summary.other {
-			fmt.Println(p)
-		}
-		fmt.Println("")
+	viewTemplate := `
+## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
+
+[All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
+
+{{if .Enhancement -}}
+Enhancements:
+{{range .Enhancement -}}
+- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{end}}
+{{- end}}
+{{if .Bug -}}
+Bug fixes:
+{{range .Bug -}}
+- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{end}}
+{{- end}}
+{{if .Documentation -}}
+Documentation:
+{{range .Documentation -}}
+- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{end}}
+{{- end}}
+{{if .Other -}}
+Misc:
+{{range .Other -}}
+- {{.Title}} [#{{.Number}}]({{.URL}}) ([{{.User.Login}}]({{.User.URL}}))
+{{end}}
+{{- end}}
+	`
+	tmplt, err := template.New("ChangeLog").Parse(viewTemplate)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = tmplt.Execute(os.Stdout, summary)
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
