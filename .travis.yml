@@ -1,0 +1,10 @@
+language: go
+
+go: master
+
+before_install:
+  - sudo add-apt-repository ppa:masterminds/glide -y
+  - sudo apt-get update -q
+  - sudo apt-get install glide -y
+
+install: make dependencies
