@@ -119,24 +119,24 @@ func generate(config *Configuration) {
 		ListOptions: github.ListOptions{PerPage: 20},
 	}
 
-	allSearchResult := searchAllIssues(ctx, client, query, searchOptions, config)
-	display(config, allSearchResult, commitCurrentRef)
+	issues := searchAllIssues(ctx, client, query, searchOptions, config)
+	display(config, issues, commitCurrentRef)
 }
 
 func searchAllIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions, config *Configuration) []github.Issue {
-	var allSearchResult []github.Issue
+	var allIssues []github.Issue
 	for {
 		issuesSearchResult, resp, err := client.Search.Issues(ctx, query, searchOptions)
 		if err != nil {
 			log.Fatal(err)
 		}
-		for _, issueResult := range issuesSearchResult.Issues {
-			if contains(issueResult.Labels, config.LabelExclude) {
+		for _, issue := range issuesSearchResult.Issues {
+			if contains(issue.Labels, config.LabelExclude) {
 				if config.Debug {
-					log.Println("Exclude:", *issueResult.Number, *issueResult.Title)
+					log.Println("Exclude:", *issue.Number, *issue.Title)
 				}
 			} else {
-				allSearchResult = append(allSearchResult, issueResult)
+				allIssues = append(allIssues, issue)
 			}
 		}
 		if resp.NextPage == 0 {
@@ -144,24 +144,24 @@ func searchAllIssues(ctx context.Context, client *github.Client, query string, s
 		}
 		searchOptions.Page = resp.NextPage
 	}
-	return allSearchResult
+	return allIssues
 }
 
-func display(config *Configuration, allSearchResult []github.Issue, commitCurrentRef *github.RepositoryCommit) {
+func display(config *Configuration, issues []github.Issue, commitCurrentRef *github.RepositoryCommit) {
 	summary := &Summary{
 		Owner:          config.Owner,
 		RepositoryName: config.RepositoryName,
 	}
 
-	for _, issueResult := range allSearchResult {
-		if contains(issueResult.Labels, config.LabelDocumentation) {
-			summary.Documentation = append(summary.Documentation, issueResult)
-		} else if contains(issueResult.Labels, config.LabelEnhancement) {
-			summary.Enhancement = append(summary.Enhancement, issueResult)
-		} else if contains(issueResult.Labels, config.LabelBug) {
-			summary.Bug = append(summary.Bug, issueResult)
+	for _, issue := range issues {
+		if contains(issue.Labels, config.LabelDocumentation) {
+			summary.Documentation = append(summary.Documentation, issue)
+		} else if contains(issue.Labels, config.LabelEnhancement) {
+			summary.Enhancement = append(summary.Enhancement, issue)
+		} else if contains(issue.Labels, config.LabelBug) {
+			summary.Bug = append(summary.Bug, issue)
 		} else {
-			summary.Other = append(summary.Other, issueResult)
+			summary.Other = append(summary.Other, issue)
 		}
 	}
 
