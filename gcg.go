@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"time"
 
 	"github.com/containous/flaeg"
 	"github.com/google/go-github/github"
@@ -20,6 +21,7 @@ const (
 	DefaultBugLabel           = "bug"
 	DefaultOutputDestination  = "file"
 	DefaultFileName           = "CHANGELOG.md"
+	GitHubSearchDateLayout    = "2006-01-02T15:04:05Z"
 )
 
 type Configuration struct {
@@ -96,13 +98,13 @@ func generate(config *Configuration) {
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
 	check(err)
 
-	datePreviousRef := commitPreviousRef.Commit.Committer.Date.Format("2006-01-02T15:04:05Z")
+	datePreviousRef := commitPreviousRef.Commit.Committer.Date.Add(1 * time.Second).Format(GitHubSearchDateLayout)
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
 	check(err)
 
-	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Format("2006-01-02T15:04:05Z")
+	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Format(GitHubSearchDateLayout)
 
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
