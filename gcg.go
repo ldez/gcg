@@ -104,7 +104,7 @@ func generate(config *Configuration) {
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
 	check(err)
 
-	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Format(GitHubSearchDateLayout)
+	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Add(1 * time.Second).Format(GitHubSearchDateLayout)
 
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
