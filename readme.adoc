@@ -5,26 +5,34 @@ image:https://travis-ci.org/ldez/gcg.svg?branch=master[Build Status,link=https:/
 [source,shell]
 ----
 GCG is a GitHub Changelog Generator.
-	
+The generator use only Pull Requests.
+
 Usage: gcg [--flag=flag_argument] [-f[flag_argument]] ...     set flag_argument to flag(s)
    or: gcg [--flag[=true|false| ]] [-f[true|false| ]] ...     set true/false to boolean flag(s)
 
 Flags:
--b, --base-branch       Base branch name. PR branch destination.                  (default "master")
-    --bug-label         Bug Label.                                                (default "bug")
--c, --current-ref       Current commit reference. Can be a tag, a branch, a SHA.
-    --debug             Debug mode.                                               (default "false")
-    --doc-label         Documentation Label.                                      (default "documentation")
-    --enhancement-label Enhancement Label.                                        (default "enhancement")
-    --exclude-label     Label to exclude.
-    --file-name         Name of the changelog file.                               (default "CHANGELOG.md")
--f, --future-ref-name   The future name of the current reference.
-    --output-type       Output destination type. (file|Stdout)                    (default "file")
--o, --owner             Repository owner.
--p, --previous-ref      Previous commit reference. Can be a tag, a branch, a SHA.
--r, --repo-name         Repository name.
--t, --token             GitHub Token
--h, --help              Print Help (this message) and exit
+-b, --base-branch               Base branch name. PR branch destination.                  (default "master")
+    --bug-label                 Bug Label.                                                (default "bug")
+-c, --current-ref               Current commit reference. Can be a tag, a branch, a SHA.
+    --debug                     Debug mode.                                               (default "false")
+    --display-label             Display labels                                            (default "true")
+    --dl-options                Label display options.                                    (default "true")
+    --dl-options.prefix-exclude Excluded label prefixes.
+    --dl-options.prefix-filter  Included label prefixes.
+    --dl-options.prefix-trim    Trim label with the following prefixes.
+    --dl-options.suffix-exclude Excluded label suffixes.
+    --dl-options.suffix-filter  Included label suffixes.
+    --doc-label                 Documentation Label.                                      (default "documentation")
+    --enhancement-label         Enhancement Label.                                        (default "enhancement")
+    --exclude-label             Label to exclude.
+    --file-name                 Name of the changelog file.                               (default "CHANGELOG.md")
+-f, --future-ref-name           The future name of the current reference.
+    --output-type               Output destination type. (file|Stdout)                    (default "file")
+-o, --owner                     Repository owner.
+-p, --previous-ref              Previous commit reference. Can be a tag, a branch, a SHA.
+-r, --repo-name                 Repository name.
+-t, --token                     GitHub Token.
+-h, --help                      Print Help (this message) and exit
 ----
 
 == Examples
@@ -78,4 +86,18 @@ ex: for the (existing) version 1.3.0-rc2
 -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
 --exclude-label="area/infrastructure" --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
+----
+
+=== Filtered Labels
+
+[source,bash]
+----
+gcg -c"v1.3" -p"v1.3.0-rc2" -f"v1.3.0-rc3" -b"v1.3" \
+-o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+--exclude-label="area/infrastructure" \
+--enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
+--dl-options.prefix-filter="area/" \
+--dl-options.suffix-exclude="documentation" \
+--dl-options.prefix-trim="area/,provider/"
+--debug \
 ----
