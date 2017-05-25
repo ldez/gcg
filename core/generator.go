@@ -62,7 +62,7 @@ func searchAllIssues(ctx context.Context, client *github.Client, query string, s
 			log.Fatal(err)
 		}
 		for _, issue := range issuesSearchResult.Issues {
-			if contains(issue.Labels, config.LabelExclude) {
+			if containsLeastOne(issue.Labels, config.LabelExcludes) {
 				if config.Debug {
 					log.Println("Exclude:", *issue.Number, *issue.Title)
 				}
@@ -135,7 +135,7 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 {{template "LineTemplate" .}}
 {{end}}
 {{- end}}
-	`
+`
 
 	tmplt := template.Must(template.New("ChangeLog").Parse(viewTemplate))
 
@@ -170,6 +170,24 @@ func newGitHubClient(ctx context.Context, token string) *github.Client {
 func contains(labels []github.Label, str string) bool {
 	for _, lbl := range labels {
 		if *lbl.Name == str {
+			return true
+		}
+	}
+	return false
+}
+
+func containsLeastOne(labels []github.Label, values []string) bool {
+	for _, lbl := range labels {
+		if isIn(*lbl.Name, values) {
+			return true
+		}
+	}
+	return false
+}
+
+func isIn(name string, values []string) bool {
+	for _, value := range values {
+		if value == name {
 			return true
 		}
 	}
