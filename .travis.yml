@@ -18,6 +18,8 @@ addons:
 
 install: make dependencies
 
+script: make test-unit
+
 deploy:
   - provider: releases
     api_key: ${GITHUB_TOKEN}
