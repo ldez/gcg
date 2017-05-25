@@ -1,5 +1,5 @@
-hash: 21df8a88838a106556b49fcd1a2be87afe0fe959f0cfe6b349780d9545b31989
-updated: 2017-05-20T17:18:29.479783206+02:00
+hash: 46813949a8499af1e1c234712a5fc16cd2f556001b6a14360e72ee256368c829
+updated: 2017-05-25T13:06:55.447026741+02:00
 imports:
 - name: github.com/containous/flaeg
   version: a731c034dda967333efce5f8d276aeff11f8ff87
@@ -17,6 +17,8 @@ imports:
   - query
 - name: github.com/ogier/pflag
   version: 45c278ab3607870051a2ea9040bb85fcb8557481
+- name: github.com/stretchr/testify
+  version: b8dc1cecf15bdaf1988d9e87aa7cd98d899a06d6
 - name: golang.org/x/net
   version: 242b6b35177ec3909636b6cf6a47e8c2c6324b5d
   subpackages:

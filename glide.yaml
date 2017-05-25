@@ -5,3 +5,4 @@ import:
 - package: golang.org/x/oauth2
 - package: github.com/containous/flaeg
 - package: github.com/ogier/pflag
+- package: github.com/stretchr/testify
