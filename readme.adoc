@@ -63,10 +63,10 @@ ex: for the (non-existing) version 1.3.0-rc2
 
 image::https://cloud.githubusercontent.com/assets/5674651/26466836/78568b90-4190-11e7-8716-f96ee25fc500.png[case 02]
 
-[source,bash]
+[source, bash]
 ----
 gcg -c"v1.3" -p"v1.3.0-rc1" -f"v1.3.0-rc2" -b"v1.3" \
--o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+-o"containous" -r"traefik" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
@@ -78,11 +78,12 @@ ex: for the (existing) version 1.3.0-rc1
 
 image::https://cloud.githubusercontent.com/assets/5674651/26466840/7c47f414-4190-11e7-81ed-8cf9bcd9e88c.png[case 03]
 
-[source,bash]
+[source, bash]
 ----
 gcg -c"v1.3.0-rc1" -p"v1.2.0-rc1" -b"master" \
--o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
---exclude-label="area/infrastructure" --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
+-o"containous" -r"traefik" \
+--exclude-label="area/infrastructure" \
+--enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
 ----
 
@@ -92,24 +93,25 @@ ex: for the (existing) version 1.3.0-rc2
 
 image::https://cloud.githubusercontent.com/assets/5674651/26466844/81fdfe12-4190-11e7-80a2-6bc4f3cfa011.png[case 04]
 
-[source,bash]
+[source, bash]
 ----
 gcg -c"v1.3.0-rc2" -p"v1.3.0-rc1" -b"v1.3" \
--o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
---exclude-label="area/infrastructure" --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
+-o"containous" -r"traefik" \
+--exclude-label="area/infrastructure" \
+--enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --debug
 ----
 
 === Filtered Labels
 
-[source,bash]
+[source, bash]
 ----
 gcg -c"v1.3" -p"v1.3.0-rc2" -f"v1.3.0-rc3" -b"v1.3" \
--o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+-o"containous" -r"traefik" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
 --dl-options.prefix-filter="area/" \
 --dl-options.suffix-exclude="documentation" \
---dl-options.prefix-trim="area/,provider/"
---debug \
+--dl-options.prefix-trim="area/,provider/" \
+--debug
 ----
