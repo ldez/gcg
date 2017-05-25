@@ -90,3 +90,17 @@ func (c *SliceString) String() string {
 func (c *SliceString) SetValue(val interface{}) {
 	*c = SliceString(val.([]string))
 }
+
+type ByLabel []IssueSummary
+
+func (a ByLabel) Len() int      { return len(a) }
+func (a ByLabel) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a ByLabel) Less(i, j int) bool {
+	if len(a[i].FilteredLabelNames) == 0 && len(a[j].FilteredLabelNames) != 0 {
+		return false
+	}
+	if len(a[j].FilteredLabelNames) == 0 && len(a[i].FilteredLabelNames) != 0 {
+		return true
+	}
+	return a[i].FilteredLabelNames < a[j].FilteredLabelNames
+}

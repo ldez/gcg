@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"sort"
 	"strings"
 	"time"
 
@@ -95,6 +96,10 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 			summary.Other = makeAndAppendIssueSummary(summary.Other, issue, config)
 		}
 	}
+	sort.Sort(types.ByLabel(summary.Documentation))
+	sort.Sort(types.ByLabel(summary.Enhancement))
+	sort.Sort(types.ByLabel(summary.Bug))
+	sort.Sort(types.ByLabel(summary.Other))
 
 	summary.CurrentRefDate = commitCurrentRef.Commit.Committer.Date.Format("2006-01-02")
 	if len(config.FutureCurrentRefName) == 0 {
