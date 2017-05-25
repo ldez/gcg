@@ -107,7 +107,7 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 
 	//// TODO Milestone?
 
-	viewTemplate := `{{define "LineTemplate"}}- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.URL}}) by [{{.Issue.User.Login}}]({{.Issue.User.URL}})){{end}}
+	viewTemplate := `{{define "LineTemplate"}}- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}})){{end}}
 ## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
 [All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
 
