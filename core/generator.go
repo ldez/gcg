@@ -47,7 +47,7 @@ func Generate(config *types.Configuration) {
 
 	searchOptions := &github.SearchOptions{
 		Sort:        "created",
-		Order:       "asc",
+		Order:       "desc",
 		ListOptions: github.ListOptions{PerPage: 20},
 	}
 
