@@ -1,6 +1,6 @@
 .PHONY: all
 
-default: binary
+default: test-unit binary
 
 dependencies:
 	glide install
