@@ -1,3 +1,9 @@
+## [v1.4.1](https://github.com/ldez/gcg/tree/v1.4.1) (2017-05-26)
+[All Commits](https://github.com/ldez/gcg/compare/v1.4.0...v1.4.1)
+
+**Enhancements:**
+* chore: validate, tests, build and more
+
 ## [v1.4.0](https://github.com/ldez/gcg/tree/v1.4.0) (2017-05-26)
 [All Commits](https://github.com/ldez/gcg/compare/v1.3.0...v1.4.0)
 
