@@ -108,7 +108,7 @@ gcg -c"v1.3.0-rc2" -p"v1.3.0-rc1" -b"v1.3" \
 
 [source, bash]
 ----
-gcg -c"v1.3" -p"v1.3.0-rc2" -f"v1.3.0-rc3" -b"v1.3" \
+gcg -c"v1.3" -p"v1.3.0-rc1" -f"v1.3.0" -b"v1.3" \
 -o"containous" -r"traefik" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \

@@ -17,9 +17,38 @@ import (
 	"golang.org/x/oauth2"
 )
 
-const (
-	GitHubSearchDateLayout = "2006-01-02T15:04:05Z"
-)
+const GitHubSearchDateLayout = "2006-01-02T15:04:05Z"
+
+const viewTemplate = `## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
+[All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
+
+{{if .Enhancement -}}
+**Enhancements:**
+{{range .Enhancement -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Bug -}}
+**Bug fixes:**
+{{range .Bug -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Documentation -}}
+**Documentation:**
+{{range .Documentation -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Other -}}
+**Misc:**
+{{range .Other -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+`
+
+const lineTemplate = `- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}}))`
 
 func Generate(config *types.Configuration) {
 	ctx := context.Background()
@@ -110,39 +139,9 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 
 	summary.PreviousRefName = config.PreviousRef
 
-	//// TODO Milestone?
-
-	viewTemplate := `{{define "LineTemplate"}}- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}})){{end}}
-## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
-[All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
-
-{{if .Enhancement -}}
-**Enhancements:**
-{{range .Enhancement -}}
-{{template "LineTemplate" .}}
-{{end}}
-{{- end}}
-{{if .Bug -}}
-**Bug fixes:**
-{{range .Bug -}}
-{{template "LineTemplate" .}}
-{{end}}
-{{- end}}
-{{if .Documentation -}}
-**Documentation:**
-{{range .Documentation -}}
-{{template "LineTemplate" .}}
-{{end}}
-{{- end}}
-{{if .Other -}}
-**Misc:**
-{{range .Other -}}
-{{template "LineTemplate" .}}
-{{end}}
-{{- end}}
-`
-
-	tmplt := template.Must(template.New("ChangeLog").Parse(viewTemplate))
+	base := template.New("ChangeLog")
+	base.New("LineTemplate").Parse(lineTemplate)
+	tmplt := template.Must(base.Parse(viewTemplate))
 
 	var wr io.Writer
 	if config.OutputType == "file" {
