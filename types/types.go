@@ -26,6 +26,8 @@ type Configuration struct {
 	OutputType           string               `long:"output-type" description:"Output destination type. (file|Stdout)"`
 	FileName             string               `long:"file-name" description:"Name of the changelog file."`
 	Debug                bool                 `long:"debug" description:"Debug mode."`
+	ThresholdPreviousRef int                  `long:"th-before" description:"Threshold in seconds after the previous ref date."`
+	ThresholdCurrentRef  int                  `long:"th-after" description:"Threshold in seconds after the current ref date."`
 }
 
 type DisplayLabelOptions struct {

@@ -13,13 +13,15 @@ import (
 func main() {
 
 	config := &types.Configuration{
-		BaseBranch:         types.DefaultBaseBranch,
-		LabelEnhancement:   types.DefaultEnhancementLabel,
-		LabelDocumentation: types.DefaultDocumentationLabel,
-		LabelBug:           types.DefaultBugLabel,
-		OutputType:         types.DefaultOutputDestination,
-		FileName:           types.DefaultFileName,
-		DisplayLabel:       true,
+		BaseBranch:           types.DefaultBaseBranch,
+		LabelEnhancement:     types.DefaultEnhancementLabel,
+		LabelDocumentation:   types.DefaultDocumentationLabel,
+		LabelBug:             types.DefaultBugLabel,
+		OutputType:           types.DefaultOutputDestination,
+		FileName:             types.DefaultFileName,
+		DisplayLabel:         true,
+		ThresholdPreviousRef: 1,
+		ThresholdCurrentRef:  5,
 	}
 
 	defaultPointer := &types.Configuration{

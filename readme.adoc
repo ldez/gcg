@@ -33,6 +33,8 @@ Flags:
 -o, --owner                     Repository owner.
 -p, --previous-ref              Previous commit reference. Can be a tag, a branch, a SHA.
 -r, --repo-name                 Repository name.
+    --th-after                  Threshold in seconds after the current ref date.          (default "5")
+    --th-before                 Threshold in seconds after the previous ref date.         (default "1")
 -t, --token                     GitHub Token.
 -h, --help                      Print Help (this message) and exit
 ----

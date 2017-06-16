@@ -59,13 +59,13 @@ func Generate(config *types.Configuration) {
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
 	check(err)
 
-	datePreviousRef := commitPreviousRef.Commit.Committer.Date.Add(1 * time.Second).Format(GitHubSearchDateLayout)
+	datePreviousRef := commitPreviousRef.Commit.Committer.Date.Add(time.Duration(config.ThresholdPreviousRef) * time.Second).Format(GitHubSearchDateLayout)
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
 	check(err)
 
-	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Add(1 * time.Second).Format(GitHubSearchDateLayout)
+	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Add(time.Duration(config.ThresholdCurrentRef) * time.Second).Format(GitHubSearchDateLayout)
 
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
