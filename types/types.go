@@ -1,7 +1,6 @@
 package types
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -72,13 +71,13 @@ func (c *LabelDisplayOptionsParser) SetValue(val interface{}) {
 
 type SliceString []string
 
-func (c *SliceString) Set(value string) error {
-	values := strings.Split(value, ",")
+func (c *SliceString) Set(rawValue string) error {
+	values := strings.Split(rawValue, ",")
 	if len(values) == 0 {
-		return errors.New("Bad Value format: " + value)
+		return fmt.Errorf("Bad Value format: %s", rawValue)
 	}
-	for _, val := range values {
-		*c = append(*c, val)
+	for _, value := range values {
+		*c = append(*c, value)
 	}
 	return nil
 }

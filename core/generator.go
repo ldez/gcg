@@ -59,13 +59,13 @@ func Generate(config *types.Configuration) {
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
 	check(err)
 
-	datePreviousRef := commitPreviousRef.Commit.Committer.Date.Add(time.Duration(config.ThresholdPreviousRef) * time.Second).Format(GitHubSearchDateLayout)
+	datePreviousRef := commitPreviousRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdPreviousRef) * time.Second).Format(GitHubSearchDateLayout)
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
 	check(err)
 
-	dateCurrentRef := commitCurrentRef.Commit.Committer.Date.Add(time.Duration(config.ThresholdCurrentRef) * time.Second).Format(GitHubSearchDateLayout)
+	dateCurrentRef := commitCurrentRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdCurrentRef) * time.Second).Format(GitHubSearchDateLayout)
 
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
@@ -94,7 +94,7 @@ func searchAllIssues(ctx context.Context, client *github.Client, query string, s
 		for _, issue := range issuesSearchResult.Issues {
 			if containsLeastOne(issue.Labels, config.LabelExcludes) {
 				if config.Debug {
-					log.Println("Exclude:", *issue.Number, *issue.Title)
+					log.Println("Exclude:", issue.GetNumber(), issue.GetTitle())
 				}
 			} else {
 				allIssues = append(allIssues, issue)
@@ -130,7 +130,7 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 	sort.Sort(types.ByLabel(summary.Bug))
 	sort.Sort(types.ByLabel(summary.Other))
 
-	summary.CurrentRefDate = commitCurrentRef.Commit.Committer.Date.Format("2006-01-02")
+	summary.CurrentRefDate = commitCurrentRef.Commit.Committer.GetDate().Format("2006-01-02")
 	if len(config.FutureCurrentRefName) == 0 {
 		summary.CurrentRefName = config.CurrentRef
 	} else {
@@ -182,7 +182,7 @@ func contains(labels []github.Label, str string) bool {
 
 func containsLeastOne(labels []github.Label, values []string) bool {
 	for _, lbl := range labels {
-		if isIn(*lbl.Name, values) {
+		if isIn(lbl.GetName(), values) {
 			return true
 		}
 	}
