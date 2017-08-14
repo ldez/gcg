@@ -1,6 +1,6 @@
 .PHONY: all
 
-default: test-unit validate build
+default: clean test-unit validate build
 
 dependencies:
 	glide install
@@ -13,3 +13,6 @@ validate:
 
 test-unit:
 	./.script/make.sh test-unit
+
+clean:
+	rm -f gcg cover.out
