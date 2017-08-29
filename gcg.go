@@ -40,10 +40,11 @@ The generator use only Pull Requests.
 				log.Printf("Run GCG command with config : %+v\n", config)
 				log.Printf("Run GCG command with config : %+v\n", config.DisplayLabelOptions)
 			}
-			required(config.CurrentRef, "current-ref")
-			required(config.PreviousRef, "previous-ref")
-			required(config.Owner, "owner")
-			required(config.RepositoryName, "repo-name")
+
+			err := validateConfig(config)
+			if err != nil {
+				return err
+			}
 
 			core.Generate(config)
 			return nil
@@ -54,6 +55,22 @@ The generator use only Pull Requests.
 	flag.AddParser(reflect.TypeOf(types.DisplayLabelOptions{}), &types.LabelDisplayOptionsParser{})
 	flag.AddParser(reflect.TypeOf([]string{}), &types.SliceString{})
 	flag.Run()
+}
+
+func validateConfig(config *types.Configuration) error {
+	err := required(config.CurrentRef, "current-ref")
+	if err != nil {
+		return err
+	}
+	err = required(config.PreviousRef, "previous-ref")
+	if err != nil {
+		return err
+	}
+	err = required(config.Owner, "owner")
+	if err != nil {
+		return err
+	}
+	return required(config.RepositoryName, "repo-name")
 }
 
 func required(field string, fieldName string) error {
