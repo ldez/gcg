@@ -17,7 +17,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-const GitHubSearchDateLayout = "2006-01-02T15:04:05Z"
+const gitHubSearchDateLayout = "2006-01-02T15:04:05Z"
 
 const viewTemplate = `## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
 [All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
@@ -50,6 +50,7 @@ const viewTemplate = `## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.
 
 const lineTemplate = `- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}}))`
 
+// Generate change log
 func Generate(config *types.Configuration) {
 	ctx := context.Background()
 
@@ -59,13 +60,13 @@ func Generate(config *types.Configuration) {
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
 	check(err)
 
-	datePreviousRef := commitPreviousRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdPreviousRef) * time.Second).Format(GitHubSearchDateLayout)
+	datePreviousRef := commitPreviousRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdPreviousRef) * time.Second).Format(gitHubSearchDateLayout)
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
 	check(err)
 
-	dateCurrentRef := commitCurrentRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdCurrentRef) * time.Second).Format(GitHubSearchDateLayout)
+	dateCurrentRef := commitCurrentRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdCurrentRef) * time.Second).Format(gitHubSearchDateLayout)
 
 	// Search PR
 	query := fmt.Sprintf("type:pr is:merged repo:%s/%s base:%s merged:%s..%s",
@@ -140,20 +141,21 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 	summary.PreviousRefName = config.PreviousRef
 
 	base := template.New("ChangeLog")
-	base.New("LineTemplate").Parse(lineTemplate)
+	_, err := base.New("LineTemplate").Parse(lineTemplate)
+	check(err)
 	tmplt := template.Must(base.Parse(viewTemplate))
 
 	var wr io.Writer
 	if config.OutputType == "file" {
 		file, err := os.Create(config.FileName)
-		defer file.Close()
 		check(err)
+		defer file.Close()
 		wr = file
 	} else {
 		wr = os.Stdout
 	}
 
-	err := tmplt.Execute(wr, summary)
+	err = tmplt.Execute(wr, summary)
 	check(err)
 }
 

@@ -1,5 +1,6 @@
 package types
 
+// Default configuration values
 const (
 	DefaultBaseBranch         = "master"
 	DefaultEnhancementLabel   = "enhancement"

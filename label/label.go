@@ -4,6 +4,7 @@ import (
 	"github.com/google/go-github/github"
 )
 
+// FilterAndTransform Filter and transform labels
 func FilterAndTransform(labels []github.Label, filter Predicate, transform NameTransform) []string {
 
 	var results []string
@@ -15,6 +16,7 @@ func FilterAndTransform(labels []github.Label, filter Predicate, transform NameT
 	return results
 }
 
+// FilteredBy Filter labels by a Predicate
 func FilteredBy(namePredicate func(string) Predicate, values []string) Predicate {
 	predicate := All
 	if len(values) != 0 {
@@ -30,6 +32,7 @@ func FilteredBy(namePredicate func(string) Predicate, values []string) Predicate
 	return predicate
 }
 
+// ExcludedBy Exclude labels by a Predicate
 func ExcludedBy(namePredicate func(string) Predicate, values []string) Predicate {
 	predicate := All
 	if len(values) != 0 {
@@ -44,6 +47,7 @@ func ExcludedBy(namePredicate func(string) Predicate, values []string) Predicate
 	return predicate
 }
 
+// TrimAllPrefix Trim all prefix
 func TrimAllPrefix(values []string) NameTransform {
 	transform := NameIdentity
 	for _, rp := range values {
