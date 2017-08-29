@@ -43,7 +43,7 @@ Flags:
 
 [source,bash]
 ----
-gcg -c"v1.3.0-rc1" -p"v1.2.0-rc1" -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+gcg -p"v1.2.0-rc1" -c"v1.3.0-rc1" -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ----
 
 === Next major release (RC1 on master)
@@ -54,7 +54,7 @@ image::https://cloud.githubusercontent.com/assets/5674651/26466830/73dc7200-4190
 
 [source,bash]
 ----
-gcg -c"master" -p"v1.3.0-rc1" -f"v1.4.0-rc1" -b"master" \
+gcg -b"master" -p"v1.3.0-rc1" -c"master" -f"v1.4.0-rc1" \
 -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
@@ -69,7 +69,7 @@ image::https://cloud.githubusercontent.com/assets/5674651/26466836/78568b90-4190
 
 [source, bash]
 ----
-gcg -c"v1.3" -p"v1.3.0-rc1" -f"v1.3.0-rc2" -b"v1.3" \
+gcg -b"v1.3" -p"v1.3.0-rc1" -c"v1.3" -f"v1.3.0-rc2" \
 -o"containous" -r"traefik" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
@@ -84,7 +84,7 @@ image::https://cloud.githubusercontent.com/assets/5674651/26466840/7c47f414-4190
 
 [source, bash]
 ----
-gcg -c"v1.3.0-rc1" -p"v1.2.0-rc1" -b"master" \
+gcg -b"master" -p"v1.2.0-rc1" -c"v1.3.0-rc1" \
 -o"containous" -r"traefik" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
@@ -99,7 +99,7 @@ image::https://cloud.githubusercontent.com/assets/5674651/26466844/81fdfe12-4190
 
 [source, bash]
 ----
-gcg -c"v1.3.0-rc2" -p"v1.3.0-rc1" -b"v1.3" \
+gcg -b"v1.3" -p"v1.3.0-rc1" -c"v1.3.0-rc2" \
 -o"containous" -r"traefik" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
@@ -110,13 +110,27 @@ gcg -c"v1.3.0-rc2" -p"v1.3.0-rc1" -b"v1.3" \
 
 [source, bash]
 ----
-gcg -c"v1.3" -p"v1.3.0-rc1" -f"v1.3.0" -b"v1.3" \
+gcg -b"v1.3" -p"v1.3.0-rc1" -c"v1.3" -f"v1.3.0"  \
 -o"containous" -r"traefik" \
 --exclude-label="area/infrastructure" \
 --enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
---dl-options.prefix-filter="area/" \
+--dl-options.prefix-filter="area/,platform/" \
 --dl-options.suffix-exclude="documentation" \
---dl-options.prefix-trim="area/,provider/" \
+--dl-options.prefix-trim="area/provider/,area/middleware/,area/,platform/" \
+--debug
+----
+
+[source, bash]
+----
+gcg \
+--base-branch="v1.3" --previous-ref="v1.3.0-rc1" \
+--current-ref="v1.3" --future-ref-name="v1.3.0" \
+--owner="containous" --repo-name="traefik" \
+--exclude-label="area/infrastructure" \
+--enhancement-label="kind/enhancement" --doc-label="area/documentation" --bug-label="kind/bug/fix" \
+--dl-options.prefix-filter="area/,platform/" \
+--dl-options.suffix-exclude="documentation" \
+--dl-options.prefix-trim="area/provider/,area/middleware/,area/,platform/" \
 --debug
 ----
 
