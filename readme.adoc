@@ -1,6 +1,6 @@
 = GCG - GitHub Changelog Generator
 
-image:https://travis-ci.org/ldez/gcg.svg?branch=master[Build Status,link=https://travis-ci.org/ldez/gcg]
+image:https://travis-ci.org/ldez/gcg.svg?branch=master["Build Status", link="https://travis-ci.org/ldez/gcg"]
 
 image::https://cloud.githubusercontent.com/assets/5674651/26468714/b7a3ce64-4197-11e7-8b2e-51a13cfe504a.png[GCG]
 
