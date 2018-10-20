@@ -1,3 +1,24 @@
+## [v1.6.0](https://github.com/ldez/gcg/tree/v1.6.0) (2018-09-20)
+[All Commits](https://github.com/ldez/gcg/compare/v1.5.1...v1.6.0)
+
+**Enhancements:**
+* feat: support file configuration
+
+## [v1.5.1](https://github.com/ldez/gcg/tree/v1.5.1) (2017-07-30)
+[All Commits](https://github.com/ldez/gcg/compare/v1.5.0...v1.5.1)
+
+**Bug fixes:**
+* fix: errors management
+
+**Documentation:**
+* doc: enhance examples
+
+## [v1.5.0](https://github.com/ldez/gcg/tree/v1.5.0) (2017-07-29)
+[All Commits](https://github.com/ldez/gcg/compare/v1.4.1...v1.5.0)
+
+**Enhancements:**
+* feat: threshold.
+
 ## [v1.4.1](https://github.com/ldez/gcg/tree/v1.4.1) (2017-05-26)
 [All Commits](https://github.com/ldez/gcg/compare/v1.4.0...v1.4.1)
 
