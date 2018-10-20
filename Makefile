@@ -1,6 +1,8 @@
-.PHONY: all
+.PHONY: clean test-unit build check fmt
 
-default: clean test-unit validate build
+GOFILES := $(shell go list -f '{{range $$index, $$element := .GoFiles}}{{$$.Dir}}/{{$$element}}{{"\n"}}{{end}}' ./... | grep -v '/vendor/')
+
+default: clean check test-unit build
 
 dependencies:
 	dep ensure
@@ -8,11 +10,14 @@ dependencies:
 build:
 	go build
 
-validate:
-	./.script/make.sh validate-gofmt validate-govet validate-golint validate-misspell
-
 test-unit:
-	./.script/make.sh test-unit
+	go test -v ./...
+
+check:
+	golangci-lint run
+
+fmt:
+	gofmt -s -l -w $(GOFILES)
 
 clean:
 	rm -f gcg cover.out
