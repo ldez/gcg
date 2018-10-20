@@ -22,16 +22,16 @@
 
 
 [[constraint]]
-  branch = "master"
   name = "github.com/containous/flaeg"
+  version = "v1.4.0"
 
 [[constraint]]
   branch = "master"
   name = "github.com/google/go-github"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/stretchr/testify"
+  version = "v1.2.2"
 
 [[constraint]]
   branch = "master"
