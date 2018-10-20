@@ -147,9 +147,10 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 
 	var wr io.Writer
 	if config.OutputType == "file" {
-		file, err := os.Create(config.FileName)
+		var file *os.File
+		file, err = os.Create(config.FileName)
 		check(err)
-		defer file.Close()
+		defer func() { _ = file.Close() }()
 		wr = file
 	} else {
 		wr = os.Stdout

@@ -2,10 +2,34 @@
 
 
 [[projects]]
-  branch = "master"
-  name = "github.com/containous/flaeg"
+  name = "github.com/BurntSushi/toml"
   packages = ["."]
-  revision = "b5d2dc5878df07c2d74413348186982e7b865871"
+  revision = "3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005"
+  version = "v0.3.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/abronan/valkeyrie"
+  packages = [
+    ".",
+    "store"
+  ]
+  revision = "fc50db13428acc7bffe804a575c800bf3572975a"
+
+[[projects]]
+  name = "github.com/containous/flaeg"
+  packages = [
+    ".",
+    "parse"
+  ]
+  revision = "9c0eb9a7ed040497d28e5bf21cd0c684e2061271"
+  version = "v1.4.0"
+
+[[projects]]
+  name = "github.com/containous/staert"
+  packages = ["."]
+  revision = "66717a0e0ca950c4b6dc8c87b46da0b8495c6e41"
+  version = "v3.1.1"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -32,10 +56,16 @@
   revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
 
 [[projects]]
+  name = "github.com/mitchellh/mapstructure"
+  packages = ["."]
+  revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
+  version = "v1.1.2"
+
+[[projects]]
+  branch = "master"
   name = "github.com/ogier/pflag"
   packages = ["."]
-  revision = "32a05c62658bd1d7c7e75cbc8195de5d585fde0f"
-  version = "v0.0.1"
+  revision = "45c278ab3607870051a2ea9040bb85fcb8557481"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -52,24 +82,41 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
-  packages = ["context","context/ctxhttp"]
+  packages = [
+    "context",
+    "context/ctxhttp"
+  ]
   revision = "1c05540f6879653db88113bc4a2b70aec4bd491f"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/oauth2"
-  packages = [".","internal"]
+  packages = [
+    ".",
+    "internal"
+  ]
   revision = "9a379c6b3e95a790ffc43293c2a78dee0d7b6e20"
 
 [[projects]]
   name = "google.golang.org/appengine"
-  packages = [".","internal","internal/app_identity","internal/base","internal/datastore","internal/log","internal/modules","internal/remote_api","internal/urlfetch","urlfetch"]
+  packages = [
+    ".",
+    "internal",
+    "internal/app_identity",
+    "internal/base",
+    "internal/datastore",
+    "internal/log",
+    "internal/modules",
+    "internal/remote_api",
+    "internal/urlfetch",
+    "urlfetch"
+  ]
   revision = "150dc57a1b433e64154302bdc40b6bb8aefa313a"
   version = "v1.0.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fddcdcb3ffa134f89cc6f2ee6303ab648f6df91221f85545f61fbc76d1d053cf"
+  inputs-digest = "1b4241c2a25d9456d3abd8b022d10691f0fb261710ec9db1b609abcd6856657d"
   solver-name = "gps-cdcl"
   solver-version = 1

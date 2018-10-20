@@ -1,17 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"reflect"
 
 	"github.com/containous/flaeg"
+	"github.com/containous/staert"
 	"github.com/ldez/gcg/core"
 	"github.com/ldez/gcg/types"
+	"github.com/ogier/pflag"
 )
 
 func main() {
-
 	config := &types.Configuration{
 		BaseBranch:           types.DefaultBaseBranch,
 		LabelEnhancement:     types.DefaultEnhancementLabel,
@@ -31,8 +33,7 @@ func main() {
 	rootCmd := &flaeg.Command{
 		Name: "gcg",
 		Description: `GCG is a GitHub Changelog Generator.
-The generator use only Pull Requests.
-		`,
+The generator use only Pull Requests.`,
 		Config:                config,
 		DefaultPointersConfig: defaultPointer,
 		Run: func() error {
@@ -49,12 +50,41 @@ The generator use only Pull Requests.
 			core.Generate(config)
 			return nil
 		},
+		Metadata: map[string]string{
+			"parseAllSources": "true",
+		},
 	}
 
 	flag := flaeg.New(rootCmd, os.Args[1:])
 	flag.AddParser(reflect.TypeOf(types.DisplayLabelOptions{}), &types.LabelDisplayOptionsParser{})
 	flag.AddParser(reflect.TypeOf([]string{}), &types.SliceString{})
-	flag.Run()
+
+	if _, err := flag.Parse(rootCmd); err != nil {
+		if err == pflag.ErrHelp {
+			os.Exit(0)
+		}
+		log.Fatalf("Error parsing command: %v\n", err)
+	}
+
+	s := staert.NewStaert(rootCmd)
+
+	// init TOML source
+	toml := staert.NewTomlSource("gcg", []string{config.ConfigFile, "."})
+
+	// add sources to staert
+	s.AddSource(toml)
+	s.AddSource(flag)
+
+	if _, err := s.LoadConfig(); err != nil {
+		if err != pflag.ErrHelp {
+			os.Exit(0)
+		}
+		log.Fatalf("Error reading TOML config file %s : %v\n", toml.ConfigFileUsed(), err)
+	}
+
+	if err := s.Run(); err != nil {
+		log.Fatalf("Error: %v\n", err)
+	}
 }
 
 func validateConfig(config *types.Configuration) error {
@@ -75,7 +105,7 @@ func validateConfig(config *types.Configuration) error {
 
 func required(field string, fieldName string) error {
 	if len(field) == 0 {
-		log.Fatalf("%s is mandatory.", fieldName)
+		return fmt.Errorf("%s is mandatory", fieldName)
 	}
 	return nil
 }

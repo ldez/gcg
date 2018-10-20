@@ -9,12 +9,17 @@ image::https://cloud.githubusercontent.com/assets/5674651/26468714/b7a3ce64-4197
 GCG is a GitHub Changelog Generator.
 The generator use only Pull Requests.
 
-Usage: gcg [--flag=flag_argument] [-f[flag_argument]] ...     set flag_argument to flag(s)
-   or: gcg [--flag[=true|false| ]] [-f[true|false| ]] ...     set true/false to boolean flag(s)
+Usage: gcg [flags] <command> [<arguments>]
+
+Use "gcg <command> --help" for help on any command.
+
+Flag's usage: gcg [--flag=flag_argument] [-f[flag_argument]] ...     set flag_argument to flag(s)
+          or: gcg [--flag[=true|false| ]] [-f[true|false| ]] ...     set true/false to boolean flag(s)
 
 Flags:
 -b, --base-branch               Base branch name. PR branch destination.                  (default "master")
     --bug-label                 Bug Label.                                                (default "bug")
+    --config-file               A configuration file. [optional]
 -c, --current-ref               Current commit reference. Can be a tag, a branch, a SHA.
     --debug                     Debug mode.                                               (default "false")
     --display-label             Display labels                                            (default "true")
@@ -35,7 +40,7 @@ Flags:
 -r, --repo-name                 Repository name.
     --th-after                  Threshold in seconds after the current ref date.          (default "5")
     --th-before                 Threshold in seconds after the previous ref date.         (default "1")
--t, --token                     GitHub Token.
+-t, --token                     GitHub Token. [optional]
 -h, --help                      Print Help (this message) and exit
 ----
 

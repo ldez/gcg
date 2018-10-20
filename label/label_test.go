@@ -149,7 +149,7 @@ func TestFilteredByEmptyPrefixesList(t *testing.T) {
 		Name: &name,
 	}
 
-	prefixes := []string{}
+	var prefixes []string
 	assert.True(t, FilteredBy(HasPrefix, prefixes)(ghLabel))
 }
 
@@ -189,7 +189,7 @@ func TestExcludedByEmptyPrefixesList(t *testing.T) {
 		Name: &name,
 	}
 
-	prefixes := []string{}
+	var prefixes []string
 	assert.True(t, ExcludedBy(HasPrefix, prefixes)(ghLabel))
 }
 
@@ -216,7 +216,7 @@ func TestTrimAllPrefixNonExistingPrefix(t *testing.T) {
 }
 
 func TestTrimAllPrefixEmptyPrefix(t *testing.T) {
-	prefixes := []string{}
+	var prefixes []string
 
 	assert.Equal(t, "type/legume/potiron", TrimAllPrefix(prefixes)("type/legume/potiron"))
 }

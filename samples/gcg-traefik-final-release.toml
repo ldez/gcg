@@ -1,0 +1,28 @@
+Owner = "containous"
+RepositoryName = "traefik"
+# GitHubToken = "XXXXXXXXXXXXXXXXX" # optional
+
+OutputType = "file"
+FileName = "traefik_changelog.md"
+
+# example final release of v1.5.0
+CurrentRef = "v1.5"
+PreviousRef = "v1.5.0-rc4"
+BaseBranch = "v1.5"
+FutureCurrentRefName = "v1.5.0"
+
+ThresholdPreviousRef = 10
+ThresholdCurrentRef = 10
+
+Debug = true
+DisplayLabel = true
+
+LabelExcludes = ["area/infrastructure"]
+LabelEnhancement = "kind/enhancement"
+LabelDocumentation = "area/documentation"
+LabelBug = "kind/bug/fix"
+
+[DisplayLabelOptions]
+  FilteredPrefixes = ["area/", "platform/"]
+  ExcludedSuffixes = ["documentation"]
+  TrimmedPrefixes = ["area/provider/", "area/middleware/", "area/", "platform/"]

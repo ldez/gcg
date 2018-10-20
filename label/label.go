@@ -6,11 +6,10 @@ import (
 
 // FilterAndTransform Filter and transform labels
 func FilterAndTransform(labels []github.Label, filter Predicate, transform NameTransform) []string {
-
 	var results []string
-	for _, label := range labels {
-		if filter(label) {
-			results = append(results, transform(*label.Name))
+	for _, lbl := range labels {
+		if filter(lbl) {
+			results = append(results, transform(*lbl.Name))
 		}
 	}
 	return results

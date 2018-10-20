@@ -1,0 +1,27 @@
+Owner = "xenolf"
+RepositoryName = "lego"
+# GitHubToken = "XXXXXXXXXXXXXXXXX" # optional
+
+OutputType = "file"
+FileName = "lego_changelog.md"
+
+CurrentRef = "master"
+PreviousRef = "v1.1.0"
+BaseBranch = "master"
+FutureCurrentRefName = "v1.1.1"
+
+ThresholdPreviousRef = 10
+ThresholdCurrentRef = 10
+
+Debug = true
+DisplayLabel = true
+
+LabelExcludes = ["area/infrastructure"]
+LabelEnhancement = "enhancement"
+LabelDocumentation = "area/documentation"
+LabelBug = "bug"
+
+[DisplayLabelOptions]
+  FilteredPrefixes = ["area/", "platform/"]
+  ExcludedSuffixes = ["documentation"]
+  TrimmedPrefixes = ["area/provider/", "area/middleware/", "area/", "platform/"]

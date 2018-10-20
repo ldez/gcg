@@ -10,24 +10,25 @@ import (
 
 // Configuration GCG Configuration
 type Configuration struct {
+	ConfigFile           string               `long:"config-file" description:"A configuration file. [optional]" toml:"-"`
+	Owner                string               `short:"o" description:"Repository owner."`
+	RepositoryName       string               `long:"repo-name" short:"r" description:"Repository name."`
+	GitHubToken          string               `long:"token" short:"t" description:"GitHub Token. [optional]"`
+	OutputType           string               `long:"output-type" description:"Output destination type. (file|Stdout)"`
+	FileName             string               `long:"file-name" description:"Name of the changelog file."`
 	CurrentRef           string               `long:"current-ref" short:"c" description:"Current commit reference. Can be a tag, a branch, a SHA."`
 	PreviousRef          string               `long:"previous-ref" short:"p" description:"Previous commit reference. Can be a tag, a branch, a SHA."`
 	BaseBranch           string               `long:"base-branch" short:"b" description:"Base branch name. PR branch destination."`
 	FutureCurrentRefName string               `long:"future-ref-name" short:"f" description:"The future name of the current reference."`
-	Owner                string               `short:"o" description:"Repository owner."`
-	RepositoryName       string               `long:"repo-name" short:"r" description:"Repository name."`
-	GitHubToken          string               `long:"token" short:"t" description:"GitHub Token."`
+	ThresholdPreviousRef int                  `long:"th-before" description:"Threshold in seconds after the previous ref date."`
+	ThresholdCurrentRef  int                  `long:"th-after" description:"Threshold in seconds after the current ref date."`
+	Debug                bool                 `long:"debug" description:"Debug mode."`
+	DisplayLabel         bool                 `long:"display-label" description:"Display labels"`
 	LabelExcludes        []string             `long:"exclude-label" description:"Label to exclude."`
 	LabelEnhancement     string               `long:"enhancement-label" description:"Enhancement Label."`
 	LabelDocumentation   string               `long:"doc-label" description:"Documentation Label."`
 	LabelBug             string               `long:"bug-label" description:"Bug Label."`
-	DisplayLabel         bool                 `long:"display-label" description:"Display labels"`
 	DisplayLabelOptions  *DisplayLabelOptions `long:"dl-options" description:"Label display options."`
-	OutputType           string               `long:"output-type" description:"Output destination type. (file|Stdout)"`
-	FileName             string               `long:"file-name" description:"Name of the changelog file."`
-	Debug                bool                 `long:"debug" description:"Debug mode."`
-	ThresholdPreviousRef int                  `long:"th-before" description:"Threshold in seconds after the previous ref date."`
-	ThresholdCurrentRef  int                  `long:"th-after" description:"Threshold in seconds after the current ref date."`
 }
 
 // DisplayLabelOptions the options defining the labeling display
@@ -85,7 +86,7 @@ type SliceString []string
 func (c *SliceString) Set(rawValue string) error {
 	values := strings.Split(rawValue, ",")
 	if len(values) == 0 {
-		return fmt.Errorf("Bad Value format: %s", rawValue)
+		return fmt.Errorf("bad Value format: %s", rawValue)
 	}
 	for _, value := range values {
 		*c = append(*c, value)
