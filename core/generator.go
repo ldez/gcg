@@ -46,9 +46,11 @@ const viewTemplate = `## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.
 {{template "LineTemplate" .}}
 {{end}}
 {{- end}}
-`
 
-const lineTemplate = `- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}}))`
+{{- define "LineTemplate" -}}
+- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}}))
+{{- end -}}
+`
 
 // Generate change log
 func Generate(config *types.Configuration) error {
@@ -146,8 +148,6 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 	summary.PreviousRefName = config.PreviousRef
 
 	base := template.New("ChangeLog")
-	_, err := base.New("LineTemplate").Parse(lineTemplate)
-	check(err)
 	tmplt := template.Must(base.Parse(viewTemplate))
 
 	var wr io.Writer
@@ -246,10 +246,4 @@ func labelFilter(options *types.DisplayLabelOptions) label.Predicate {
 	}
 
 	return label.All
-}
-
-func check(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
 }
