@@ -5,7 +5,7 @@ GOFILES := $(shell go list -f '{{range $$index, $$element := .GoFiles}}{{$$.Dir}
 default: clean check test-unit build
 
 dependencies:
-	dep ensure
+	dep ensure -v
 
 build:
 	go build

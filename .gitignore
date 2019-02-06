@@ -3,4 +3,5 @@ vendor/
 gcg
 gcg.toml
 cover.out
+dist/
 unsecured

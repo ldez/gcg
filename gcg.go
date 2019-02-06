@@ -59,12 +59,18 @@ The generator use only Pull Requests.`,
 	flag.AddParser(reflect.TypeOf(types.DisplayLabelOptions{}), &types.LabelDisplayOptionsParser{})
 	flag.AddParser(reflect.TypeOf([]string{}), &types.SliceString{})
 
-	if _, err := flag.Parse(rootCmd); err != nil {
-		if err == pflag.ErrHelp {
-			os.Exit(0)
-		}
-		log.Fatalf("Error parsing command: %v\n", err)
+	versionCmd := &flaeg.Command{
+		Name:                  "version",
+		Description:           "Display the version.",
+		Config:                &types.NoOption{},
+		DefaultPointersConfig: &types.NoOption{},
+		Run: func() error {
+			DisplayVersion()
+			return nil
+		},
 	}
+
+	flag.AddCommand(versionCmd)
 
 	s := staert.NewStaert(rootCmd)
 
@@ -83,6 +89,9 @@ The generator use only Pull Requests.`,
 	}
 
 	if err := s.Run(); err != nil {
+		if err == pflag.ErrHelp {
+			os.Exit(0)
+		}
 		log.Fatalf("Error: %v\n", err)
 	}
 }

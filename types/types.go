@@ -8,6 +8,9 @@ import (
 	"github.com/google/go-github/github"
 )
 
+// NoOption empty struct.
+type NoOption struct{}
+
 // Configuration GCG Configuration
 type Configuration struct {
 	ConfigFile           string               `long:"config-file" description:"A configuration file. [optional]" toml:"-"`
