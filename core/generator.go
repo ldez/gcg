@@ -51,20 +51,25 @@ const viewTemplate = `## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.
 const lineTemplate = `- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}}))`
 
 // Generate change log
-func Generate(config *types.Configuration) {
+func Generate(config *types.Configuration) error {
 	ctx := context.Background()
 
 	client := newGitHubClient(ctx, config.GitHubToken)
 
 	// Get previous ref date
 	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
-	check(err)
+	if err != nil {
+		return err
+	}
 
 	datePreviousRef := commitPreviousRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdPreviousRef) * time.Second).Format(gitHubSearchDateLayout)
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
-	check(err)
+
+	if err != nil {
+		return err
+	}
 
 	dateCurrentRef := commitCurrentRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdCurrentRef) * time.Second).Format(gitHubSearchDateLayout)
 
@@ -82,7 +87,7 @@ func Generate(config *types.Configuration) {
 	}
 
 	issues := searchAllIssues(ctx, client, query, searchOptions, config)
-	display(config, issues, commitCurrentRef)
+	return display(config, issues, commitCurrentRef)
 }
 
 func searchAllIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions, config *types.Configuration) []github.Issue {
@@ -109,7 +114,7 @@ func searchAllIssues(ctx context.Context, client *github.Client, query string, s
 	return allIssues
 }
 
-func display(config *types.Configuration, issues []github.Issue, commitCurrentRef *github.RepositoryCommit) {
+func display(config *types.Configuration, issues []github.Issue, commitCurrentRef *github.RepositoryCommit) error {
 	summary := &types.Summary{
 		Owner:          config.Owner,
 		RepositoryName: config.RepositoryName,
@@ -148,16 +153,17 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 	var wr io.Writer
 	if config.OutputType == "file" {
 		var file *os.File
-		file, err = os.Create(config.FileName)
-		check(err)
+		file, err := os.Create(config.FileName)
+		if err != nil {
+			return err
+		}
 		defer func() { _ = file.Close() }()
 		wr = file
 	} else {
 		wr = os.Stdout
 	}
 
-	err = tmplt.Execute(wr, summary)
-	check(err)
+	return tmplt.Execute(wr, summary)
 }
 
 func newGitHubClient(ctx context.Context, token string) *github.Client {

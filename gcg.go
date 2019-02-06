@@ -47,8 +47,7 @@ The generator use only Pull Requests.`,
 				return err
 			}
 
-			core.Generate(config)
-			return nil
+			return core.Generate(config)
 		},
 		Metadata: map[string]string{
 			"parseAllSources": "true",
