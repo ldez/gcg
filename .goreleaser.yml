@@ -39,5 +39,5 @@ archive:
   files:
     - LICENCE
 
-release:
-  disable: true
+#release:
+#  disable: true
