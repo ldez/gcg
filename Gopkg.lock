@@ -145,7 +145,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/BurntSushi/toml",
     "github.com/containous/flaeg",
     "github.com/containous/staert",
     "github.com/google/go-github/github",
