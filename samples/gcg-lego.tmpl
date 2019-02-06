@@ -1,0 +1,33 @@
+## [{{ .CurrentRefName }}] - {{ .CurrentRefDate }}
+
+{{if .Enhancement -}}
+### Added:
+### Changed:
+### Removed:
+{{range .Enhancement -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Bug -}}
+### Fixed:
+{{range .Bug -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+
+{{if .Documentation -}}
+**Documentation:**
+{{range .Documentation -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Other -}}
+**Misc:**
+{{range .Other -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+
+{{- define "LineTemplate" -}}
+- {{ .FilteredLabelNames }}{{.Issue.Title | html}}
+{{- end -}}

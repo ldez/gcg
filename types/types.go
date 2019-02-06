@@ -32,6 +32,7 @@ type Configuration struct {
 	LabelDocumentation   string               `long:"doc-label" description:"Documentation Label."`
 	LabelBug             string               `long:"bug-label" description:"Bug Label."`
 	DisplayLabelOptions  *DisplayLabelOptions `long:"dl-options" description:"Label display options."`
+	TemplateFile         string               `long:"tmpl-file" description:"A template file. [optional]"`
 }
 
 // DisplayLabelOptions the options defining the labeling display

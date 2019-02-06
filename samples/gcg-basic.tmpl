@@ -1,0 +1,31 @@
+## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.RepositoryName}}/tree/{{.CurrentRefName}}) ({{.CurrentRefDate}})
+[All Commits](https://github.com/{{.Owner}}/{{.RepositoryName}}/compare/{{.PreviousRefName}}...{{.CurrentRefName}})
+
+{{if .Enhancement -}}
+**Enhancements:**
+{{range .Enhancement -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Bug -}}
+**Bug fixes:**
+{{range .Bug -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Documentation -}}
+**Documentation:**
+{{range .Documentation -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+{{if .Other -}}
+**Misc:**
+{{range .Other -}}
+{{template "LineTemplate" .}}
+{{end}}
+{{- end}}
+
+{{- define "LineTemplate" -}}
+- {{.FilteredLabelNames}}{{.Issue.Title |html}} ([#{{.Issue.Number}}]({{.Issue.HTMLURL}}) by [{{.Issue.User.Login}}]({{.Issue.User.HTMLURL}}))
+{{- end -}}

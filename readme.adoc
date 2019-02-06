@@ -13,6 +13,9 @@ Usage: gcg [flags] <command> [<arguments>]
 
 Use "gcg <command> --help" for help on any command.
 
+Commands:
+        version                                            Display the version.
+
 Flag's usage: gcg [--flag=flag_argument] [-f[flag_argument]] ...     set flag_argument to flag(s)
           or: gcg [--flag[=true|false| ]] [-f[true|false| ]] ...     set true/false to boolean flag(s)
 
@@ -40,6 +43,7 @@ Flags:
 -r, --repo-name                 Repository name.
     --th-after                  Threshold in seconds after the current ref date.          (default "5")
     --th-before                 Threshold in seconds after the previous ref date.         (default "1")
+    --tmpl-file                 A template file. [optional]
 -t, --token                     GitHub Token. [optional]
 -h, --help                      Print Help (this message) and exit
 ----

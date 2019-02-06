@@ -81,7 +81,7 @@ The generator use only Pull Requests.`,
 	s.AddSource(flag)
 
 	if _, err := s.LoadConfig(); err != nil {
-		if err != pflag.ErrHelp {
+		if err == pflag.ErrHelp {
 			os.Exit(0)
 		}
 		log.Fatalf("Error reading TOML config file %s : %v\n", toml.ConfigFileUsed(), err)
