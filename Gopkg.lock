@@ -11,33 +11,33 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:f191d276b7379731032f864a767b662c1ecb222a608d488e9bc8851430a5951f"
+  digest = "1:4ca003aa4a0ae903c56c617caf974b3b8a7c3008ece40673ad1de841b03b2f9e"
   name = "github.com/abronan/valkeyrie"
   packages = [
     ".",
     "store",
   ]
   pruneopts = ""
-  revision = "fc50db13428acc7bffe804a575c800bf3572975a"
+  revision = "61bbc4571a5d3616b996b5b3fc0a04f302d5b340"
 
 [[projects]]
-  digest = "1:3d34f7b4ce964a2748f64f6ac33900ef78aeb52889e5f508b4a0d6e70f733a3b"
+  digest = "1:fd068f1f2b853a5f6091b0e3602e8973b4c170e284d8ae3290ba24ccfb762c47"
   name = "github.com/containous/flaeg"
   packages = [
     ".",
     "parse",
   ]
   pruneopts = ""
-  revision = "9c0eb9a7ed040497d28e5bf21cd0c684e2061271"
-  version = "v1.4.0"
+  revision = "c93d194b807ef171c43344d60adad8b58217390a"
+  version = "v1.4.1"
 
 [[projects]]
-  digest = "1:788471d72823ebc2ced1106110ae75da8ac3daa313749d2eec1a0a882ba934a0"
+  digest = "1:500eeb45f30be2a17a83ddad55e355c8bed9450150197aab8c357f21f7c9322a"
   name = "github.com/containous/staert"
   packages = ["."]
   pruneopts = ""
-  revision = "66717a0e0ca950c4b6dc8c87b46da0b8495c6e41"
-  version = "v3.1.1"
+  revision = "7a9987c3a6d46be84e141a5c3191347ec10af17d"
+  version = "v3.1.2"
 
 [[projects]]
   digest = "1:0deddd908b6b4b768cfc272c16ee61e7088a60f7fe2f06c547bd3d8e1f8b8e77"
@@ -57,11 +57,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:da6871e154a3040575f630c9dd5c05a8300e240fdd0a3799087b0c3f3a51b502"
+  digest = "1:4b02bca7e5cb1dedee1bde71b4997100b04a37dc0e4bf99f30fbc15d5cdadfcf"
   name = "github.com/google/go-github"
   packages = ["github"]
   pruneopts = ""
-  revision = "68a79fc6a32bab9406083545e667a65ba67b0a3e"
+  revision = "94cd03c0c0b858a66ea286baedd59e66ef3f21dd"
 
 [[projects]]
   digest = "1:cea4aa2038169ee558bf507d5ea02c94ca85bcca28a4c7bb99fd59b31e43a686"
@@ -72,12 +72,12 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   digest = "1:bcc46a0fbd9e933087bef394871256b5c60269575bb661935874729c65bbbf60"
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
   pruneopts = ""
   revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
+  version = "v1.1.2"
 
 [[projects]]
   branch = "master"
@@ -96,37 +96,37 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:c587772fb8ad29ad4db67575dad25ba17a51f072ff18a22b4f0257a4d9c24f75"
+  digest = "1:381bcbeb112a51493d9d998bbba207a529c73dbb49b3fd789e48c63fac1f192c"
   name = "github.com/stretchr/testify"
   packages = ["assert"]
   pruneopts = ""
-  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
-  version = "v1.2.2"
+  revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
+  version = "v1.3.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:6543c75ddc1efc0041202dd49378ee2e5711b7cc82c2845c0437eef6276cc984"
+  digest = "1:1d52dac9bdc355f83ad9916bc657baa7d8735a108ae749da8e8d3513a1b15f28"
   name = "golang.org/x/net"
   packages = [
     "context",
     "context/ctxhttp",
   ]
   pruneopts = ""
-  revision = "04a2e542c03f1d053ab3e4d6e5abcd4b66e2be8e"
+  revision = "65e2d4e15006aab9813ff8769e768bbf4bb667a0"
 
 [[projects]]
   branch = "master"
-  digest = "1:77478892c6d9d841c7997858d6287884c65b760000f29a25d7b1a6b6ada5f308"
+  digest = "1:7c2c0fc8c2891e50d5a8b57482d2fee63ce723eae40c1a59bf9c6a82ff13b775"
   name = "golang.org/x/oauth2"
   packages = [
     ".",
     "internal",
   ]
   pruneopts = ""
-  revision = "9dcd33a902f40452422c2367fefcb95b54f9f8f8"
+  revision = "99b60b757ec124ebb7d6b7e97f153b19c10ce163"
 
 [[projects]]
-  digest = "1:8c432632a230496c35a15cfdf441436f04c90e724ad99c8463ef0c82bbe93edb"
+  digest = "1:bc09e719c4e2a15d17163f5272d9a3131c45d77542b7fdc53ff518815bc19ab3"
   name = "google.golang.org/appengine"
   packages = [
     "internal",
@@ -138,8 +138,8 @@
     "urlfetch",
   ]
   pruneopts = ""
-  revision = "ae0ab99deb4dc413a2b4bd6c8bdd0eb67f1e4d06"
-  version = "v1.2.0"
+  revision = "e9657d882bb81064595ca3b56cbe2546bbabf7b1"
+  version = "v1.4.0"
 
 [solve-meta]
   analyzer-name = "dep"
