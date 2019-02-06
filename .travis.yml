@@ -20,12 +20,18 @@ before_install:
   - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.10.2
   - golangci-lint --version
 
-install: make dependencies
+install:
+  - echo "TRAVIS_GO_VERSION=$TRAVIS_GO_VERSION"
+  - make dependencies
+
+after_success:
+  - make hugo-build
 
 deploy:
-  - provider: releases
-    api_key: ${GITHUB_TOKEN}
-    file: gcg
+  - provider: script
     skip_cleanup: true
+    script: curl -sL https://git.io/goreleaser | bash
     on:
       tags: true
+      condition: $TRAVIS_GO_VERSION =~ ^1\.x$
+
