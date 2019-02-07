@@ -73,8 +73,7 @@ The generator use only Pull Requests.`,
 
 	usedCmd, err := flag.GetCommand()
 	if err != nil {
-		log.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	if _, err := flag.Parse(usedCmd); err != nil {
@@ -82,7 +81,6 @@ The generator use only Pull Requests.`,
 			os.Exit(0)
 		}
 		log.Fatalf("Error parsing command: %s\n", err)
-		os.Exit(1)
 	}
 
 	s := staert.NewStaert(rootCmd)
