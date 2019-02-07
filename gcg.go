@@ -71,6 +71,20 @@ The generator use only Pull Requests.`,
 
 	flag.AddCommand(versionCmd)
 
+	usedCmd, err := flag.GetCommand()
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+
+	if _, err := flag.Parse(usedCmd); err != nil {
+		if err == pflag.ErrHelp {
+			os.Exit(0)
+		}
+		log.Fatalf("Error parsing command: %s\n", err)
+		os.Exit(1)
+	}
+
 	s := staert.NewStaert(rootCmd)
 
 	// init TOML source
