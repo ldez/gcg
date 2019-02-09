@@ -4,6 +4,7 @@ RepositoryName = "lego"
 
 OutputType = "file"
 FileName = "lego_changelog.md"
+TemplateFile = "./gcg-lego.tmpl"
 
 CurrentRef = "master"
 PreviousRef = "v1.1.0"
