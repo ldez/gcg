@@ -39,5 +39,29 @@ archive:
   files:
     - LICENCE
 
+brew:
+  github:
+    owner: ldez
+    name: homebrew-tap
+  commit_author:
+    name: ldez
+    email: ldez@users.noreply.github.com
+  folder: Formula
+  homepage: https://github.com/ldez/gcg
+  description: GitHub Changelog Generator
+  test: |
+    system "#{bin}/gcg version"
+
+scoop:
+  bucket:
+    owner: ldez
+    name: scoop-bucket
+  commit_author:
+    name: ldez
+    email: ldez@users.noreply.github.com
+  homepage: https://github.com/ldez/gcg
+  description: GitHub Changelog Generator
+  license: APACHE
+
 #release:
 #  disable: true
