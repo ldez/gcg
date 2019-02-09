@@ -48,6 +48,55 @@ Flags:
 -h, --help                      Print Help (this message) and exit
 ----
 
+== How to Install
+
+|===
+|OS |  | Command
+
+| Linux
+| https://aur.archlinux.org/packages/gcg/[ArchLinux (AUR)]
+a|
+[source]
+----
+yay -S gcg
+----
+
+| MacOS
+| https://github.com/ldez/homebrew-tap[Homebrew Taps]
+a|
+[source,bash]
+----
+brew tap ldez/tap
+brew update
+brew install gcg
+----
+
+| Windows
+| https://github.com/ldez/scoop-bucket[Scoop Bucket]
+a|
+[source,bash]
+----
+scoop bucket add ldez https://github.com/ldez/scoop-bucket.git
+scoop install gcg
+----
+
+| all
+| https://github.com/ldez/gcg/releases[Binaries]
+a|
+* To get the binary just download the latest release for your OS/Arch from https://github.com/ldez/gcg/releases[the releases page]
+* Unzip the archive.
+* Add `gcg` in your `PATH`.
+
+| all
+| https://github.com/ldez/gcg[Sources]
+a|
+[source,bash]
+----
+go get -u github.com/ldez/gcg
+----
+
+|===
+
 == Examples
 
 [source,bash]
