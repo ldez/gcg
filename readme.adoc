@@ -1,6 +1,8 @@
 = GCG - GitHub Changelog Generator
 
+image:https://img.shields.io/github/release/ldez/gcg.svg?style=flat["release", link="https://github.com/ldez/gcg/releases"]
 image:https://travis-ci.org/ldez/gcg.svg?branch=master["Build Status", link="https://travis-ci.org/ldez/gcg"]
+image:https://goreportcard.com/badge/github.com/ldez/prm["Go Report Card", link="https://goreportcard.com/report/github.com/ldez/prm"]
 
 image::https://cloud.githubusercontent.com/assets/5674651/26468714/b7a3ce64-4197-11e7-8b2e-51a13cfe504a.png[GCG]
 
@@ -51,10 +53,10 @@ Flags:
 == How to Install
 
 |===
-|OS |  | Command
+| OS | | Command
 
 | Linux
-| https://aur.archlinux.org/packages/gcg/[ArchLinux (AUR)]
+| image:https://img.shields.io/aur/version/gcg.svg?style=flat["ArchLinux (AUR)", link="https://aur.archlinux.org/packages/gcg"]
 a|
 [source]
 ----
@@ -62,7 +64,7 @@ yay -S gcg
 ----
 
 | MacOS
-| https://github.com/ldez/homebrew-tap[Homebrew Taps]
+| image:https://img.shields.io/github/release/ldez/gcg.svg?label=Homebrew%20Taps&style=flat["Homebrew Taps", link="https://github.com/ldez/homebrew-tap"]
 a|
 [source,bash]
 ----
@@ -72,7 +74,7 @@ brew install gcg
 ----
 
 | Windows
-| https://github.com/ldez/scoop-bucket[Scoop Bucket]
+| image:https://img.shields.io/github/release/ldez/gcg.svg?label=Scoop%20Bucket&style=flat["Scoop Bucket", link="https://github.com/ldez/scoop-bucket"]
 a|
 [source,bash]
 ----
@@ -81,7 +83,7 @@ scoop install gcg
 ----
 
 | all
-| https://github.com/ldez/gcg/releases[Binaries]
+| image:https://img.shields.io/github/release/ldez/gcg.svg?label=Binaries&style=flat["Binaries", link="https://github.com/ldez/gcg/releases"]
 a|
 * To get the binary just download the latest release for your OS/Arch from https://github.com/ldez/gcg/releases[the releases page]
 * Unzip the archive.
