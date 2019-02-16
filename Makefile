@@ -1,8 +1,8 @@
-.PHONY: clean test-unit build check fmt
+.PHONY: dependencies clean test build check fmt
 
 GOFILES := $(shell go list -f '{{range $$index, $$element := .GoFiles}}{{$$.Dir}}/{{$$element}}{{"\n"}}{{end}}' ./... | grep -v '/vendor/')
 
-default: clean check test-unit build
+default: clean check test build
 
 dependencies:
 	dep ensure -v
@@ -10,7 +10,7 @@ dependencies:
 build:
 	go build
 
-test-unit:
+test: clean
 	go test -v ./...
 
 check:
