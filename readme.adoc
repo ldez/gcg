@@ -6,7 +6,7 @@ image:https://goreportcard.com/badge/github.com/ldez/prm["Go Report Card", link=
 
 image::https://cloud.githubusercontent.com/assets/5674651/26468714/b7a3ce64-4197-11e7-8b2e-51a13cfe504a.png[GCG]
 
-[source]
+[source, yaml]
 ----
 GCG is a GitHub Changelog Generator.
 The generator use only Pull Requests.
