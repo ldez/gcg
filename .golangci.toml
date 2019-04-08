@@ -33,7 +33,13 @@
 [issues]
   exclude-use-default = false
   max-per-linter = 0
-  max-same = 0
-  exclude = [
-    "string `(carotte|courgette|tomate|type/carotte)` has 11 occurrences, make it a constant"
-  ]
+  max-same-issues = 0
+  exclude = []
+
+  [[issues.exclude-rules]]
+    path = "version.go"
+    text = "`(version|commit|date)` is a global variable"
+
+  [[issues.exclude-rules]]
+    path = "label/label_test.go"
+    text = "string `(carotte|courgette|tomate|type/carotte)` has (\\d+) occurrences, make it a constant"

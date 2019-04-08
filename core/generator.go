@@ -124,13 +124,14 @@ func display(config *types.Configuration, issues []github.Issue, commitCurrentRe
 	}
 
 	for _, issue := range issues {
-		if contains(issue.Labels, config.LabelDocumentation) {
+		switch {
+		case contains(issue.Labels, config.LabelDocumentation):
 			summary.Documentation = makeAndAppendIssueSummary(summary.Documentation, issue, config)
-		} else if contains(issue.Labels, config.LabelEnhancement) {
+		case contains(issue.Labels, config.LabelEnhancement):
 			summary.Enhancement = makeAndAppendIssueSummary(summary.Enhancement, issue, config)
-		} else if contains(issue.Labels, config.LabelBug) {
+		case contains(issue.Labels, config.LabelBug):
 			summary.Bug = makeAndAppendIssueSummary(summary.Bug, issue, config)
-		} else {
+		default:
 			summary.Other = makeAndAppendIssueSummary(summary.Other, issue, config)
 		}
 	}
