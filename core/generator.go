@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v27/github"
 	"github.com/ldez/gcg/label"
 	"github.com/ldez/gcg/types"
 	"golang.org/x/oauth2"

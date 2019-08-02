@@ -3,7 +3,7 @@ package core
 import (
 	"testing"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v27/github"
 	"github.com/ldez/gcg/types"
 	"github.com/stretchr/testify/assert"
 )
