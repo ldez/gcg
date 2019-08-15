@@ -30,27 +30,28 @@ changelog:
       - '^test:'
       - '^tests:'
 
-archive:
-  name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm}}v{{ .Arm }}{{ end }}'
-  format: tar.gz
-  format_overrides:
-    - goos: windows
-      format: zip
-  files:
-    - LICENCE
+archives:
+  - id: gcg
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm}}v{{ .Arm }}{{ end }}'
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENCE
 
-brew:
-  github:
-    owner: ldez
-    name: homebrew-tap
-  commit_author:
-    name: ldez
-    email: ldez@users.noreply.github.com
-  folder: Formula
-  homepage: https://github.com/ldez/gcg
-  description: GitHub Changelog Generator
-  test: |
-    system "#{bin}/gcg version"
+brews:
+  - github:
+      owner: ldez
+      name: homebrew-tap
+    commit_author:
+      name: ldez
+      email: ldez@users.noreply.github.com
+    folder: Formula
+    homepage: https://github.com/ldez/gcg
+    description: GitHub Changelog Generator
+    test: |
+      system "#{bin}/gcg version"
 
 scoop:
   bucket:
