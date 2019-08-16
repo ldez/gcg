@@ -9,6 +9,6 @@ require (
 	github.com/containous/staert v3.1.2+incompatible
 	github.com/google/go-github/v27 v27.0.4
 	github.com/ogier/pflag v0.0.1
-	github.com/stretchr/testify v1.3.0
+	github.com/stretchr/testify v1.4.0
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 )
