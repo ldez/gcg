@@ -5,6 +5,10 @@ notifications:
     on_success: never
     on_failure: change
 
+cache:
+  directories:
+    - $GOPATH/pkg/mod
+
 matrix:
   fast_finish: true
   include:
