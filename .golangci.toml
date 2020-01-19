@@ -1,6 +1,8 @@
 [run]
   deadline = "2m"
-  skip-files = []
+  skip-files = [
+    "unsecured/"
+  ]
 
 [linters-settings]
 
@@ -29,6 +31,9 @@
     "dupl",
     "prealloc",
     "bodyclose",
+    "stylecheck",
+    "gomnd",
+    "wsl",
   ]
 
 [issues]
@@ -44,3 +49,7 @@
   [[issues.exclude-rules]]
     path = "label/label_test.go"
     text = "string `(carotte|courgette|tomate|type/carotte)` has (\\d+) occurrences, make it a constant"
+
+  [[issues.exclude-rules]]
+    path = "gcg.go"
+    text = "Function 'main' is too long"

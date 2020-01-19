@@ -5,3 +5,5 @@ gcg.toml
 cover.out
 dist/
 unsecured
+*_changelog.md
+*_changelog.md

@@ -247,7 +247,6 @@ func trimAllPrefix(options *types.DisplayLabelOptions) label.NameTransform {
 }
 
 func labelFilter(options *types.DisplayLabelOptions) label.Predicate {
-
 	if options != nil {
 		return label.AllMatch(
 			label.FilteredBy(label.HasPrefix, options.FilteredPrefixes),
