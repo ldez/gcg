@@ -3,7 +3,7 @@ package core
 import (
 	"testing"
 
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v30/github"
 	"github.com/ldez/gcg/types"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,7 +18,7 @@ func TestLabelFilter(t *testing.T) {
 	}
 
 	carotte := "type/carotte/fii"
-	ghLabelCarotte := github.Label{
+	ghLabelCarotte := &github.Label{
 		Name: &carotte,
 	}
 

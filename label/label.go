@@ -1,11 +1,11 @@
 package label
 
 import (
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v30/github"
 )
 
 // FilterAndTransform Filter and transform labels
-func FilterAndTransform(labels []github.Label, filter Predicate, transform NameTransform) []string {
+func FilterAndTransform(labels []*github.Label, filter Predicate, transform NameTransform) []string {
 	var results []string
 	for _, lbl := range labels {
 		if filter(lbl) {

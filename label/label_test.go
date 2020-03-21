@@ -3,27 +3,27 @@ package label
 import (
 	"testing"
 
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v30/github"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestFilterAndTransform(t *testing.T) {
 	carotte := "carotte"
-	ghLabelCarotte := github.Label{
+	ghLabelCarotte := &github.Label{
 		Name: &carotte,
 	}
 
 	courgette := "courgette"
-	ghLabelCourgette := github.Label{
+	ghLabelCourgette := &github.Label{
 		Name: &courgette,
 	}
 
 	tomate := "tomate"
-	ghLabelTomate := github.Label{
+	ghLabelTomate := &github.Label{
 		Name: &tomate,
 	}
 
-	legumes := []github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
+	legumes := []*github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
 
 	names := FilterAndTransform(legumes, All, NameIdentity)
 
@@ -33,21 +33,21 @@ func TestFilterAndTransform(t *testing.T) {
 
 func TestFilterByPrefixAndTransform(t *testing.T) {
 	carotte := "type/carotte"
-	ghLabelCarotte := github.Label{
+	ghLabelCarotte := &github.Label{
 		Name: &carotte,
 	}
 
 	courgette := "courgette"
-	ghLabelCourgette := github.Label{
+	ghLabelCourgette := &github.Label{
 		Name: &courgette,
 	}
 
 	tomate := "tomate"
-	ghLabelTomate := github.Label{
+	ghLabelTomate := &github.Label{
 		Name: &tomate,
 	}
 
-	legumes := []github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
+	legumes := []*github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
 
 	names := FilterAndTransform(legumes, HasPrefix("type/"), NameIdentity)
 
@@ -57,21 +57,21 @@ func TestFilterByPrefixAndTransform(t *testing.T) {
 
 func TestFilterAndTransformName(t *testing.T) {
 	carotte := "type/carotte"
-	ghLabelCarotte := github.Label{
+	ghLabelCarotte := &github.Label{
 		Name: &carotte,
 	}
 
 	courgette := "type/courgette"
-	ghLabelCourgette := github.Label{
+	ghLabelCourgette := &github.Label{
 		Name: &courgette,
 	}
 
 	tomate := "type/tomate"
-	ghLabelTomate := github.Label{
+	ghLabelTomate := &github.Label{
 		Name: &tomate,
 	}
 
-	legumes := []github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
+	legumes := []*github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
 
 	names := FilterAndTransform(legumes, All, TrimPrefix("type/"))
 
@@ -81,21 +81,21 @@ func TestFilterAndTransformName(t *testing.T) {
 
 func TestFilterByPrefixAndTransformName(t *testing.T) {
 	carotte := "type/carotte"
-	ghLabelCarotte := github.Label{
+	ghLabelCarotte := &github.Label{
 		Name: &carotte,
 	}
 
 	courgette := "type/courgette"
-	ghLabelCourgette := github.Label{
+	ghLabelCourgette := &github.Label{
 		Name: &courgette,
 	}
 
 	tomate := "tomate"
-	ghLabelTomate := github.Label{
+	ghLabelTomate := &github.Label{
 		Name: &tomate,
 	}
 
-	legumes := []github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
+	legumes := []*github.Label{ghLabelCarotte, ghLabelCourgette, ghLabelTomate}
 
 	names := FilterAndTransform(legumes, HasPrefix("type/"), TrimPrefix("type/"))
 
@@ -105,7 +105,7 @@ func TestFilterByPrefixAndTransformName(t *testing.T) {
 
 func TestFilteredByExistingSuffix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -115,7 +115,7 @@ func TestFilteredByExistingSuffix(t *testing.T) {
 
 func TestFilteredByNonExistingSuffix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -125,7 +125,7 @@ func TestFilteredByNonExistingSuffix(t *testing.T) {
 
 func TestFilteredByExistingPrefix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -135,7 +135,7 @@ func TestFilteredByExistingPrefix(t *testing.T) {
 
 func TestFilteredByNonExistingPrefix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -145,7 +145,7 @@ func TestFilteredByNonExistingPrefix(t *testing.T) {
 
 func TestFilteredByEmptyPrefixesList(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -155,7 +155,7 @@ func TestFilteredByEmptyPrefixesList(t *testing.T) {
 
 func TestFilteredByEmptyPrefix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -165,7 +165,7 @@ func TestFilteredByEmptyPrefix(t *testing.T) {
 
 func TestExcludedByExistingPrefix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -175,7 +175,7 @@ func TestExcludedByExistingPrefix(t *testing.T) {
 
 func TestExcludedByNonExistingPrefix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -185,7 +185,7 @@ func TestExcludedByNonExistingPrefix(t *testing.T) {
 
 func TestExcludedByEmptyPrefixesList(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 
@@ -195,7 +195,7 @@ func TestExcludedByEmptyPrefixesList(t *testing.T) {
 
 func TestExcludedByEmptyPrefix(t *testing.T) {
 	name := "carotte"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 

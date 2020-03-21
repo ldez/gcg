@@ -3,13 +3,13 @@ package label
 import (
 	"testing"
 
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v30/github"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestAll(t *testing.T) {
 	name := "courgette"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 	assert.True(t, All(ghLabel))
@@ -17,7 +17,7 @@ func TestAll(t *testing.T) {
 
 func TestNothing(t *testing.T) {
 	name := "courgette"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 	assert.False(t, Nothing(ghLabel))
@@ -25,7 +25,7 @@ func TestNothing(t *testing.T) {
 
 func TestNot(t *testing.T) {
 	name := "courgette"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 	assert.False(t, Not(All)(ghLabel))
@@ -34,7 +34,7 @@ func TestNot(t *testing.T) {
 
 func TestHasPrefix(t *testing.T) {
 	name := "courgette"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 	assert.True(t, HasPrefix("courg")(ghLabel))
@@ -43,7 +43,7 @@ func TestHasPrefix(t *testing.T) {
 
 func TestHasSuffix(t *testing.T) {
 	name := "courgette"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 	assert.True(t, HasSuffix("gette")(ghLabel))
@@ -52,7 +52,7 @@ func TestHasSuffix(t *testing.T) {
 
 func TestAllMatch(t *testing.T) {
 	name := "courgette"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 	assert.True(t, AllMatch(All, All)(ghLabel))
@@ -62,7 +62,7 @@ func TestAllMatch(t *testing.T) {
 
 func TestAnyMatch(t *testing.T) {
 	name := "courgette"
-	ghLabel := github.Label{
+	ghLabel := &github.Label{
 		Name: &name,
 	}
 	assert.True(t, AnyMatch(All, All)(ghLabel))

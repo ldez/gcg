@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v30/github"
 )
 
 // NoOption empty struct.
@@ -60,7 +60,7 @@ type Summary struct {
 // IssueSummary an issue summary
 type IssueSummary struct {
 	FilteredLabelNames string
-	Issue              github.Issue
+	Issue              *github.Issue
 }
 
 // LabelDisplayOptionsParser a parser for DisplayLabelOptions

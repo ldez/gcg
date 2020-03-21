@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v30/github"
 	"github.com/ldez/gcg/label"
 	"github.com/ldez/gcg/types"
 	"golang.org/x/oauth2"
@@ -93,8 +93,8 @@ func Generate(config *types.Configuration) error {
 	return display(config, issues, commitCurrentRef)
 }
 
-func searchAllIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions, config *types.Configuration) []github.Issue {
-	var allIssues []github.Issue
+func searchAllIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions, config *types.Configuration) []*github.Issue {
+	var allIssues []*github.Issue
 	for {
 		issuesSearchResult, resp, err := client.Search.Issues(ctx, query, searchOptions)
 		if err != nil {
@@ -117,7 +117,7 @@ func searchAllIssues(ctx context.Context, client *github.Client, query string, s
 	return allIssues
 }
 
-func display(config *types.Configuration, issues []github.Issue, commitCurrentRef *github.RepositoryCommit) error {
+func display(config *types.Configuration, issues []*github.Issue, commitCurrentRef *github.RepositoryCommit) error {
 	summary := &types.Summary{
 		Owner:          config.Owner,
 		RepositoryName: config.RepositoryName,
@@ -191,7 +191,7 @@ func newGitHubClient(ctx context.Context, token string) *github.Client {
 	return client
 }
 
-func contains(labels []github.Label, str string) bool {
+func contains(labels []*github.Label, str string) bool {
 	for _, lbl := range labels {
 		if *lbl.Name == str {
 			return true
@@ -200,7 +200,7 @@ func contains(labels []github.Label, str string) bool {
 	return false
 }
 
-func containsLeastOne(labels []github.Label, values []string) bool {
+func containsLeastOne(labels []*github.Label, values []string) bool {
 	for _, lbl := range labels {
 		if isIn(lbl.GetName(), values) {
 			return true
@@ -218,7 +218,7 @@ func isIn(name string, values []string) bool {
 	return false
 }
 
-func makeAndAppendIssueSummary(summaries []types.IssueSummary, issue github.Issue, config *types.Configuration) []types.IssueSummary {
+func makeAndAppendIssueSummary(summaries []types.IssueSummary, issue *github.Issue, config *types.Configuration) []types.IssueSummary {
 	var lbl string
 
 	if config.DisplayLabel {
