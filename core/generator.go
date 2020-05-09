@@ -53,7 +53,7 @@ const viewTemplate = `## [{{.CurrentRefName}}](https://github.com/{{.Owner}}/{{.
 {{- end -}}
 `
 
-// Generate change log
+// Generate change log.
 func Generate(config *types.Configuration) error {
 	ctx := context.Background()
 

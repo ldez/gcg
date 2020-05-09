@@ -11,7 +11,7 @@ import (
 // NoOption empty struct.
 type NoOption struct{}
 
-// Configuration GCG Configuration
+// Configuration GCG Configuration.
 type Configuration struct {
 	ConfigFile           string               `long:"config-file" description:"A configuration file. [optional]" toml:"-"`
 	Owner                string               `short:"o" description:"Repository owner."`
@@ -35,7 +35,7 @@ type Configuration struct {
 	TemplateFile         string               `long:"tmpl-file" description:"A template file. [optional]"`
 }
 
-// DisplayLabelOptions the options defining the labeling display
+// DisplayLabelOptions the options defining the labeling display.
 type DisplayLabelOptions struct {
 	FilteredPrefixes []string `long:"prefix-filter" description:"Included label prefixes."`
 	ExcludedPrefixes []string `long:"prefix-exclude" description:"Excluded label prefixes."`
@@ -44,7 +44,7 @@ type DisplayLabelOptions struct {
 	TrimmedPrefixes  []string `long:"prefix-trim" description:"Trim label with the following prefixes."`
 }
 
-// Summary a repository summary
+// Summary a repository summary.
 type Summary struct {
 	CurrentRefName  string
 	CurrentRefDate  string
@@ -57,36 +57,36 @@ type Summary struct {
 	Other           []IssueSummary
 }
 
-// IssueSummary an issue summary
+// IssueSummary an issue summary.
 type IssueSummary struct {
 	FilteredLabelNames string
 	Issue              *github.Issue
 }
 
-// LabelDisplayOptionsParser a parser for DisplayLabelOptions
+// LabelDisplayOptionsParser a parser for DisplayLabelOptions.
 type LabelDisplayOptionsParser DisplayLabelOptions
 
-// Set a DisplayLabelOptions
+// Set a DisplayLabelOptions.
 func (c *LabelDisplayOptionsParser) Set(s string) error {
 	log.Println("sure?:", s)
 	return nil
 }
 
-// Get a DisplayLabelOptions
+// Get a DisplayLabelOptions.
 func (c *LabelDisplayOptionsParser) Get() interface{} { return DisplayLabelOptions(*c) }
 
-// String a string representation of DisplayLabelOptions
+// String a string representation of DisplayLabelOptions.
 func (c *LabelDisplayOptionsParser) String() string { return fmt.Sprintf("%v", *c) }
 
-// SetValue a DisplayLabelOptions
+// SetValue a DisplayLabelOptions.
 func (c *LabelDisplayOptionsParser) SetValue(val interface{}) {
 	*c = LabelDisplayOptionsParser(val.(DisplayLabelOptions))
 }
 
-// SliceString type used for flaeg parsing
+// SliceString type used for flaeg parsing.
 type SliceString []string
 
-// Set a SliceString
+// Set a SliceString.
 func (c *SliceString) Set(rawValue string) error {
 	values := strings.Split(rawValue, ",")
 	if len(values) == 0 {
@@ -98,20 +98,20 @@ func (c *SliceString) Set(rawValue string) error {
 	return nil
 }
 
-// Get a SliceString
+// Get a SliceString.
 func (c *SliceString) Get() interface{} { return []string(*c) }
 
-// String a string representation of SliceString
+// String a string representation of SliceString.
 func (c *SliceString) String() string {
 	return strings.Join(*c, ",")
 }
 
-// SetValue a SliceString
+// SetValue a SliceString.
 func (c *SliceString) SetValue(val interface{}) {
 	*c = SliceString(val.([]string))
 }
 
-// ByLabel sort by label
+// ByLabel sort by label.
 type ByLabel []IssueSummary
 
 func (a ByLabel) Len() int      { return len(a) }

@@ -11,7 +11,7 @@ var (
 	date    = "I don't remember exactly"
 )
 
-// DisplayVersion DisplayVersion version
+// DisplayVersion DisplayVersion version.
 func DisplayVersion() {
 	fmt.Printf(`gcg:
  version     : %s
