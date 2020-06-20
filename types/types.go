@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/google/go-github/v30/github"
+	"github.com/google/go-github/v32/github"
 )
 
 // NoOption empty struct.
