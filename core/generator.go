@@ -69,7 +69,6 @@ func Generate(config *types.Configuration) error {
 
 	// Get current ref version date
 	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
-
 	if err != nil {
 		return err
 	}
