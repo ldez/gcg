@@ -1,6 +1,6 @@
 module github.com/ldez/gcg
 
-go 1.12
+go 1.13
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
@@ -9,6 +9,6 @@ require (
 	github.com/containous/staert v3.1.2+incompatible
 	github.com/google/go-github/v32 v32.0.0
 	github.com/ogier/pflag v0.0.1
-	github.com/stretchr/testify v1.5.1
+	github.com/stretchr/testify v1.6.1
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 )
