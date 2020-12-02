@@ -34,10 +34,13 @@
     "stylecheck",
     "gomnd",
     "wsl",
-    "goerr113",
-    "testpackage",
-    "noctx",
     "nlreturn",
+    "goerr113",
+    "wrapcheck",
+    "testpackage",
+    "paralleltest",
+    "noctx",
+    "exhaustivestruct",
   ]
 
 [issues]
@@ -48,7 +51,7 @@
 
   [[issues.exclude-rules]]
     path = "version.go"
-    text = "`(version|commit|date)` is a global variable"
+    text = "(version|commit|date) is a global variable"
 
   [[issues.exclude-rules]]
     path = "label/label_test.go"

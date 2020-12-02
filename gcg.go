@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -77,7 +78,7 @@ The generator use only Pull Requests.`,
 	}
 
 	if _, err := flag.Parse(usedCmd); err != nil {
-		if err == pflag.ErrHelp {
+		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
 		log.Fatalf("Error parsing command: %s\n", err)
@@ -93,14 +94,14 @@ The generator use only Pull Requests.`,
 	s.AddSource(flag)
 
 	if _, err := s.LoadConfig(); err != nil {
-		if err == pflag.ErrHelp {
+		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
 		log.Fatalf("Error reading TOML config file %s : %v\n", toml.ConfigFileUsed(), err)
 	}
 
 	if err := s.Run(); err != nil {
-		if err == pflag.ErrHelp {
+		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
 		log.Fatalf("Error: %v\n", err)
