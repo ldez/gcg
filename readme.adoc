@@ -1,7 +1,7 @@
 = GCG - GitHub Changelog Generator
 
 image:https://img.shields.io/github/release/ldez/gcg.svg?style=flat["release", link="https://github.com/ldez/gcg/releases"]
-image:https://travis-ci.com/ldez/gcg.svg?branch=master["Build Status", link="https://travis-ci.com/ldez/gcg"]
+image:https://github.com/ldez/gcg/workflows/Main/badge.svg?branch=master["Build Status", link="https://github.com/ldez/gcg/actions"]
 image:https://goreportcard.com/badge/github.com/ldez/prm["Go Report Card", link="https://goreportcard.com/report/github.com/ldez/prm"]
 image:https://img.shields.io/badge/Sponsor%20me-%E2%9D%A4%EF%B8%8F-pink["Sponsor", link="https://github.com/sponsors/ldez"]
 
