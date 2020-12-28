@@ -60,3 +60,7 @@
   [[issues.exclude-rules]]
     path = "gcg.go"
     text = "Function 'main' is too long"
+
+  [[issues.exclude-rules]]
+    path = "version.go"
+    text = "use of `fmt.Printf` forbidden by pattern"
