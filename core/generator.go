@@ -140,7 +140,7 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 	sort.Sort(types.ByLabel(summary.Other))
 
 	summary.CurrentRefDate = commitCurrentRef.Commit.Committer.GetDate().Format("2006-01-02")
-	if len(config.FutureCurrentRefName) == 0 {
+	if config.FutureCurrentRefName == "" {
 		summary.CurrentRefName = config.CurrentRef
 	} else {
 		summary.CurrentRefName = config.FutureCurrentRefName
@@ -178,7 +178,7 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 
 func newGitHubClient(ctx context.Context, token string) *github.Client {
 	var client *github.Client
-	if len(token) == 0 {
+	if token == "" {
 		client = github.NewClient(nil)
 	} else {
 		ts := oauth2.StaticTokenSource(

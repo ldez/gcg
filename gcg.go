@@ -125,7 +125,7 @@ func validateConfig(config *types.Configuration) error {
 }
 
 func required(field, fieldName string) error {
-	if len(field) == 0 {
+	if field == "" {
 		return fmt.Errorf("%s is mandatory", fieldName)
 	}
 	return nil

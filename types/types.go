@@ -117,10 +117,10 @@ type ByLabel []IssueSummary
 func (a ByLabel) Len() int      { return len(a) }
 func (a ByLabel) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 func (a ByLabel) Less(i, j int) bool {
-	if len(a[i].FilteredLabelNames) == 0 && len(a[j].FilteredLabelNames) != 0 {
+	if a[i].FilteredLabelNames == "" && a[j].FilteredLabelNames != "" {
 		return false
 	}
-	if len(a[j].FilteredLabelNames) == 0 && len(a[i].FilteredLabelNames) != 0 {
+	if a[j].FilteredLabelNames == "" && a[i].FilteredLabelNames != "" {
 		return true
 	}
 	return a[i].FilteredLabelNames < a[j].FilteredLabelNames
