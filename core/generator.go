@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"sort"
@@ -150,7 +149,7 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 
 	tmplContent := viewTemplate
 	if len(config.TemplateFile) > 0 {
-		raw, err := ioutil.ReadFile(config.TemplateFile)
+		raw, err := os.ReadFile(config.TemplateFile)
 		if err != nil {
 			return err
 		}
