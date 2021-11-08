@@ -41,7 +41,7 @@ archives:
       - LICENCE
 
 brews:
-  - github:
+  - tap:
       owner: ldez
       name: homebrew-tap
     commit_author:
