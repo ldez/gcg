@@ -197,4 +197,4 @@ gcg \
 
 == References
 
-Images generated with link:http://gitgraphjs.com/[gitgraphjs]
+Images generated with link:https://www.nicoespeon.com/gitgraph.js/[gitgraphjs]
