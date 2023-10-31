@@ -23,10 +23,13 @@ linters-settings:
   gofumpt:
     extra-rules: true
   depguard:
-    list-type: blacklist
-    include-go-root: false
-    packages:
-      - github.com/pkg/errors
+    rules:
+      main:
+        deny:
+          - pkg: "github.com/instana/testify"
+            desc: not allowed
+          - pkg: "github.com/pkg/errors"
+            desc: Should be replaced by standard lib errors package
   godox:
     keywords:
       - FIXME
@@ -49,6 +52,19 @@ linters-settings:
       - '^panic$'
       - '^spew\.Print(f|ln)?$'
       - '^spew\.Dump$'
+  tagalign:
+    align: false
+    order:
+      - long
+      - short
+      - description
+      - xml
+      - json
+      - yaml
+      - yml
+      - toml
+      - mapstructure
+      - url
 
 linters:
   enable-all: true
@@ -63,6 +79,7 @@ linters:
     - scopelint # deprecated
     - structcheck # deprecated
     - varcheck # deprecated
+    - cyclop # duplicate of gocyclo
     - sqlclosecheck # not relevant (SQL)
     - rowserrcheck # not relevant (SQL)
     - execinquery # not relevant (SQL)
