@@ -149,7 +149,7 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 	summary.PreviousRefName = config.PreviousRef
 
 	tmplContent := viewTemplate
-	if len(config.TemplateFile) > 0 {
+	if config.TemplateFile != "" {
 		raw, err := os.ReadFile(config.TemplateFile)
 		if err != nil {
 			return err
