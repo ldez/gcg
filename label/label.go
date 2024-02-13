@@ -9,7 +9,7 @@ func FilterAndTransform(labels []*github.Label, filter Predicate, transform Name
 	var results []string
 	for _, lbl := range labels {
 		if filter(lbl) {
-			results = append(results, transform(*lbl.Name))
+			results = append(results, transform(lbl.GetName()))
 		}
 	}
 	return results

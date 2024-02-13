@@ -1,6 +1,7 @@
 package label
 
 import (
+	"slices"
 	"strings"
 
 	"github.com/google/go-github/v32/github"
@@ -29,37 +30,31 @@ func Not(predicate Predicate) Predicate {
 // HasPrefix label predicate.
 func HasPrefix(prefix string) Predicate {
 	return func(label *github.Label) bool {
-		return strings.HasPrefix(*label.Name, prefix)
+		return strings.HasPrefix(label.GetName(), prefix)
 	}
 }
 
 // HasSuffix label predicate.
 func HasSuffix(suffix string) Predicate {
 	return func(label *github.Label) bool {
-		return strings.HasSuffix(*label.Name, suffix)
+		return strings.HasSuffix(label.GetName(), suffix)
 	}
 }
 
 // AllMatch label predicate.
 func AllMatch(predicates ...Predicate) Predicate {
 	return func(label *github.Label) bool {
-		for _, predicate := range predicates {
-			if !predicate(label) {
-				return false
-			}
-		}
-		return true
+		return !slices.ContainsFunc(predicates, func(predicate Predicate) bool {
+			return !predicate(label)
+		})
 	}
 }
 
 // AnyMatch label predicate.
 func AnyMatch(predicates ...Predicate) Predicate {
 	return func(label *github.Label) bool {
-		for _, predicate := range predicates {
-			if predicate(label) {
-				return true
-			}
-		}
-		return false
+		return slices.ContainsFunc(predicates, func(predicate Predicate) bool {
+			return predicate(label)
+		})
 	}
 }

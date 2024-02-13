@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"slices"
 	"sort"
 	"strings"
 	"time"
@@ -99,7 +100,7 @@ func searchAllIssues(ctx context.Context, client *github.Client, query string, s
 			log.Fatal(err)
 		}
 		for _, issue := range issuesSearchResult.Issues {
-			if containsLeastOne(issue.Labels, config.LabelExcludes) {
+			if containsLeastOneLabel(issue.Labels, config.LabelExcludes) {
 				if config.Debug {
 					log.Println("Exclude:", issue.GetNumber(), issue.GetTitle())
 				}
@@ -123,11 +124,11 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 
 	for _, issue := range issues {
 		switch {
-		case contains(issue.Labels, config.LabelDocumentation):
+		case containsLabel(issue.Labels, config.LabelDocumentation):
 			summary.Documentation = makeAndAppendIssueSummary(summary.Documentation, issue, config)
-		case contains(issue.Labels, config.LabelEnhancement):
+		case containsLabel(issue.Labels, config.LabelEnhancement):
 			summary.Enhancement = makeAndAppendIssueSummary(summary.Enhancement, issue, config)
-		case contains(issue.Labels, config.LabelBug):
+		case containsLabel(issue.Labels, config.LabelBug):
 			summary.Bug = makeAndAppendIssueSummary(summary.Bug, issue, config)
 		default:
 			summary.Other = makeAndAppendIssueSummary(summary.Other, issue, config)
@@ -176,44 +177,24 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 }
 
 func newGitHubClient(ctx context.Context, token string) *github.Client {
-	var client *github.Client
 	if token == "" {
-		client = github.NewClient(nil)
-	} else {
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: token},
-		)
-		tc := oauth2.NewClient(ctx, ts)
-		client = github.NewClient(tc)
+		return github.NewClient(nil)
 	}
-	return client
+
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+	return github.NewClient(oauth2.NewClient(ctx, ts))
 }
 
-func contains(labels []*github.Label, str string) bool {
-	for _, lbl := range labels {
-		if *lbl.Name == str {
-			return true
-		}
-	}
-	return false
+func containsLabel(labels []*github.Label, str string) bool {
+	return slices.ContainsFunc(labels, func(lbl *github.Label) bool {
+		return lbl.GetName() == str
+	})
 }
 
-func containsLeastOne(labels []*github.Label, values []string) bool {
-	for _, lbl := range labels {
-		if isIn(lbl.GetName(), values) {
-			return true
-		}
-	}
-	return false
-}
-
-func isIn(name string, values []string) bool {
-	for _, value := range values {
-		if value == name {
-			return true
-		}
-	}
-	return false
+func containsLeastOneLabel(labels []*github.Label, values []string) bool {
+	return slices.ContainsFunc(labels, func(lbl *github.Label) bool {
+		return slices.Contains(values, lbl.GetName())
+	})
 }
 
 func makeAndAppendIssueSummary(summaries []types.IssueSummary, issue *github.Issue, config *types.Configuration) []types.IssueSummary {
