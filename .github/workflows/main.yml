@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - master
-    tags:
-      - v*
+      - main
   pull_request:
 
 jobs:
@@ -38,13 +37,3 @@ jobs:
 
       - name: Make
         run: make
-
-      # https://goreleaser.com/ci/actions/
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
-        if: startsWith(github.ref, 'refs/tags/v')
-        with:
-          version: latest
-          args: release --clean
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
