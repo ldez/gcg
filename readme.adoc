@@ -111,7 +111,15 @@ gcg -p"v1.2.0-rc1" -c"v1.3.0-rc1" -o"containous" -r"traefik" -t"xxxxxxxxxxxxxxxx
 
 ex: for the (non-existing) next version 1.4.0-rc1
 
-image::https://cloud.githubusercontent.com/assets/5674651/26466830/73dc7200-4190-11e7-8477-1e81b2878ef5.png[case 01]
+[source,mermaid]
+----
+gitGraph:
+    commit id:"a"
+    commit id:"b" tag:"v1.3.0-rc1" type:HIGHLIGHT
+    commit id:"c"
+    commit id:"d"
+    commit id:"e" tag:"HEAD" type:HIGHLIGHT
+----
 
 [source,bash]
 ----
@@ -126,7 +134,21 @@ gcg -b"master" -p"v1.3.0-rc1" -c"master" -f"v1.4.0-rc1" \
 
 ex: for the (non-existing) version 1.3.0-rc2
 
-image::https://cloud.githubusercontent.com/assets/5674651/26466836/78568b90-4190-11e7-8716-f96ee25fc500.png[case 02]
+[source,mermaid]
+----
+gitGraph:
+    commit id:"a"
+    commit id:"b" tag:"v1.3.0-rc1" type:HIGHLIGHT
+    branch v1.3
+    checkout main
+    commit id:"c"
+    checkout v1.3
+    commit id:"d"
+    commit  id:"e"tag:"HEAD" type:HIGHLIGHT
+    checkout main
+    commit id:"f"
+    commit id:"g"
+----
 
 [source, bash]
 ----
@@ -141,7 +163,28 @@ gcg -b"v1.3" -p"v1.3.0-rc1" -c"v1.3" -f"v1.3.0-rc2" \
 
 ex: for the (existing) version 1.3.0-rc1
 
-image::https://cloud.githubusercontent.com/assets/5674651/26466840/7c47f414-4190-11e7-81ed-8cf9bcd9e88c.png[case 03]
+[source,mermaid]
+----
+gitGraph:
+    commit id:"a"
+    commit id:"b" tag:"v1.2.0-rc1" type:HIGHLIGHT
+    branch v1.2
+    commit id:"c"
+    commit id:"d" tag:"v1.2.0"
+    commit id:"e"
+    commit id:"f" tag:"v1.2.1"
+    checkout main
+    commit id:"g"
+    merge v1.2
+    commit id:"h"
+    commit id:"i" tag:"v1.3.0-rc1" type:HIGHLIGHT
+    branch v1.3
+    commit id:"j"
+    commit id:"k"
+    checkout main
+    commit id:"l"
+    commit id:"m"
+----
 
 [source, bash]
 ----
@@ -156,7 +199,20 @@ gcg -b"master" -p"v1.2.0-rc1" -c"v1.3.0-rc1" \
 
 ex: for the (existing) version 1.3.0-rc2
 
-image::https://cloud.githubusercontent.com/assets/5674651/26466844/81fdfe12-4190-11e7-80a2-6bc4f3cfa011.png[case 04]
+[source,mermaid]
+----
+gitGraph:
+    commit id:"a"
+    commit id:"b" tag:"v1.3.0-rc1" type:HIGHLIGHT
+    branch v1.3
+    commit id:"c"
+    commit id:"d" tag:"v1.3.0-rc2" type:HIGHLIGHT
+    commit id:"e"
+    commit id:"f"
+    checkout main
+    commit id:"g"
+    commit id:"h"
+----
 
 [source, bash]
 ----
@@ -194,7 +250,3 @@ gcg \
 --dl-options.prefix-trim="area/provider/,area/middleware/,area/,platform/" \
 --debug
 ----
-
-== References
-
-Images generated with link:https://www.nicoespeon.com/gitgraph.js/[gitgraphjs]
