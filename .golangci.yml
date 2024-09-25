@@ -1,5 +1,30 @@
-run:
-  timeout: 2m
+linters:
+  enable-all: true
+  disable:
+    - gomnd # deprecated
+    - execinquery # deprecated
+    - cyclop # duplicate of gocyclo
+    - sqlclosecheck # not relevant (SQL)
+    - rowserrcheck # not relevant (SQL)
+    - cyclop # duplicate of gocyclo
+    - lll
+    - gosec
+    - dupl
+    - prealloc
+    - wsl
+    - nlreturn
+    - mnd
+    - testpackage
+    - paralleltest
+    - tparallel
+    - err113
+    - wrapcheck
+    - exhaustive
+    - exhaustruct
+    - noctx
+    - makezero
+    - varnamelen
+    - exportloopref
 
 linters-settings:
   govet:
@@ -62,34 +87,6 @@ linters-settings:
       - mapstructure
       - url
 
-linters:
-  enable-all: true
-  disable:
-    - gomnd # deprecated
-    - execinquery # deprecated
-    - cyclop # duplicate of gocyclo
-    - sqlclosecheck # not relevant (SQL)
-    - rowserrcheck # not relevant (SQL)
-    - cyclop # duplicate of gocyclo
-    - lll
-    - gosec
-    - dupl
-    - prealloc
-    - wsl
-    - nlreturn
-    - mnd
-    - testpackage
-    - paralleltest
-    - tparallel
-    - err113
-    - wrapcheck
-    - exhaustive
-    - exhaustruct
-    - noctx
-    - makezero
-    - varnamelen
-    - exportloopref
-
 issues:
   exclude-use-default: false
   max-issues-per-linter: 0
@@ -113,3 +110,9 @@ issues:
       text: "use of `fmt.Printf` forbidden by pattern"
     - path: types/types.go
       text: 'type assertion must be checked'
+
+run:
+  timeout: 2m
+
+output:
+  show-stats: true
