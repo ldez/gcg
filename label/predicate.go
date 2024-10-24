@@ -4,7 +4,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/google/go-github/v32/github"
+	"github.com/google/go-github/v66/github"
 )
 
 // Predicate A label predicate.

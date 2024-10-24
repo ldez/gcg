@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/go-github/v32/github"
+	"github.com/google/go-github/v66/github"
 	"github.com/ldez/gcg/label"
 	"github.com/ldez/gcg/types"
 	"golang.org/x/oauth2"
@@ -60,7 +60,7 @@ func Generate(config *types.Configuration) error {
 	client := newGitHubClient(ctx, config.GitHubToken)
 
 	// Get previous ref date
-	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef)
+	commitPreviousRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.PreviousRef, nil)
 	if err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func Generate(config *types.Configuration) error {
 	datePreviousRef := commitPreviousRef.Commit.Committer.GetDate().Add(time.Duration(config.ThresholdPreviousRef) * time.Second).Format(gitHubSearchDateLayout)
 
 	// Get current ref version date
-	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef)
+	commitCurrentRef, _, err := client.Repositories.GetCommit(ctx, config.Owner, config.RepositoryName, config.CurrentRef, nil)
 	if err != nil {
 		return err
 	}
