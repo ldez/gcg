@@ -1,15 +1,20 @@
-## [{{ .CurrentRefName }}] - {{ .CurrentRefDate }}
+## [{{ .CurrentRefName }}](https://github.com/go-acme/lego/releases/tag/{{ .CurrentRefName }}) ({{ .CurrentRefDate }})
 
 {{if .Enhancement -}}
-### Added:
-### Changed:
-### Removed:
+### Added
+
+### Changed
+
+### Removed
+
 {{range .Enhancement -}}
 {{template "LineTemplate" .}}
 {{end}}
 {{- end}}
 {{if .Bug -}}
-### Fixed:
+
+### Fixed
+
 {{range .Bug -}}
 {{template "LineTemplate" .}}
 {{end}}
