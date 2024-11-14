@@ -5,9 +5,9 @@ project_name: gcg
 builds:
   - binary: gcg
     goos:
-      - windows
-      - darwin
       - linux
+      - darwin
+      - windows
       - freebsd
       - openbsd
     goarch:
@@ -42,26 +42,46 @@ archives:
     files:
       - LICENCE
 
+aurs:
+  - homepage: https://github.com/ldez/gcg
+    description: GCG is a GitHub Changelog Generator.
+    skip_upload: false
+    name: gcg
+    maintainers:
+      - "Fernandez Ludovic <lfernandez dot dev at gmail dot com>"
+    license: APACHE
+    private_key: "{{ .Env.AUR_KEY }}"
+    git_url: "ssh://aur@aur.archlinux.org/gcg.git"
+    package: |-
+      # bin
+      install -Dm755 "./gcg" "${pkgdir}/usr/bin/gcg"
+
+      # license
+      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/gcg/LICENSE"
+
 brews:
-  - repository:
+  - homepage: https://github.com/ldez/gcg
+    description: GitHub Changelog Generator
+    skip_upload: false
+    repository:
       owner: ldez
       name: homebrew-tap
+    directory: Formula
     commit_author:
       name: ldez
       email: ldez@users.noreply.github.com
-    folder: Formula
-    homepage: https://github.com/ldez/gcg
-    description: GitHub Changelog Generator
     test: |
       system "#{bin}/gcg version"
 
 scoops:
-  - repository:
+  - homepage: https://github.com/ldez/gcg
+    description: GitHub Changelog Generator
+    skip_upload: false
+    license: APACHE
+    repository:
       owner: ldez
       name: scoop-bucket
     commit_author:
       name: ldez
       email: ldez@users.noreply.github.com
-    homepage: https://github.com/ldez/gcg
-    description: GitHub Changelog Generator
-    license: APACHE
+
