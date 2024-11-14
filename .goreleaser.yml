@@ -44,7 +44,7 @@ archives:
 
 aurs:
   - homepage: https://github.com/ldez/gcg
-    description: GCG is a GitHub Changelog Generator.
+    description: A GitHub Changelog Generator.
     skip_upload: false
     name: 'gcg'
     provides:
