@@ -35,18 +35,17 @@ changelog:
 archives:
   - id: gcg
     name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm}}v{{ .Arm }}{{ end }}'
-    format: tar.gz
+    formats: [ 'tar.gz' ]
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [ 'zip' ]
     files:
       - LICENCE
 
 aurs:
-  - homepage: https://github.com/ldez/gcg
-    description: A GitHub Changelog Generator.
+  - description: A GitHub Changelog Generator.
+    homepage: https://github.com/ldez/gcg
     skip_upload: false
-    name: 'gcg'
     provides:
       - gcg
     maintainers:
@@ -65,8 +64,8 @@ aurs:
       install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/gcg/LICENSE"
 
 brews:
-  - homepage: https://github.com/ldez/gcg
-    description: GitHub Changelog Generator
+  - description: GitHub Changelog Generator
+    homepage: https://github.com/ldez/gcg
     skip_upload: false
     repository:
       owner: ldez
@@ -79,8 +78,8 @@ brews:
       system "#{bin}/gcg version"
 
 scoops:
-  - homepage: https://github.com/ldez/gcg
-    description: GitHub Changelog Generator
+  - description: GitHub Changelog Generator
+    homepage: https://github.com/ldez/gcg
     skip_upload: false
     license: APACHE
     repository:
