@@ -80,7 +80,7 @@ func (c *LabelDisplayOptionsParser) String() string { return fmt.Sprintf("%v", *
 
 // SetValue a DisplayLabelOptions.
 func (c *LabelDisplayOptionsParser) SetValue(val interface{}) {
-	*c = LabelDisplayOptionsParser(val.(DisplayLabelOptions))
+	*c = LabelDisplayOptionsParser(val.(DisplayLabelOptions)) //nolint:forcetypeassert // not useful here.
 }
 
 // SliceString type used for flaeg parsing.
@@ -108,7 +108,7 @@ func (c *SliceString) String() string {
 
 // SetValue a SliceString.
 func (c *SliceString) SetValue(val interface{}) {
-	*c = SliceString(val.([]string))
+	*c = SliceString(val.([]string)) //nolint:forcetypeassert // not useful here.
 }
 
 // ByLabel sort by label.

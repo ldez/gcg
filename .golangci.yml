@@ -1,6 +1,7 @@
 linters:
   enable-all: true
   disable:
+    - tenv # Deprecated
     - cyclop # duplicate of gocyclo
     - sqlclosecheck # not relevant (SQL)
     - rowserrcheck # not relevant (SQL)
@@ -22,7 +23,6 @@ linters:
     - noctx
     - makezero
     - varnamelen
-    - exportloopref
 
 linters-settings:
   govet:
