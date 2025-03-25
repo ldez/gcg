@@ -1,116 +1,114 @@
+version: "2"
+
+formatters:
+  enable:
+    - gci
+    - gofumpt
+  settings:
+    gofumpt:
+      extra-rules: true
+  exclusions:
+    paths:
+      - ^unsecured/
+
 linters:
-  enable-all: true
+  default: all
   disable:
-    - tenv # Deprecated
     - cyclop # duplicate of gocyclo
-    - sqlclosecheck # not relevant (SQL)
-    - rowserrcheck # not relevant (SQL)
-    - cyclop # duplicate of gocyclo
-    - lll
-    - gosec
     - dupl
-    - prealloc
-    - wsl
-    - nlreturn
-    - mnd
-    - testpackage
-    - paralleltest
-    - tparallel
     - err113
-    - wrapcheck
     - exhaustive
     - exhaustruct
-    - noctx
+    - gosec
+    - lll
     - makezero
+    - mnd
+    - nlreturn
+    - noctx
+    - paralleltest
+    - prealloc
+    - rowserrcheck # not relevant (SQL)
+    - sqlclosecheck # not relevant (SQL)
+    - testpackage
+    - tparallel
     - varnamelen
+    - wrapcheck
+    - wsl
 
-linters-settings:
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment
-  gocyclo:
-    min-complexity: 16
-  goconst:
-    min-len: 3
-    min-occurrences: 3
-  misspell:
-    locale: US
-  funlen:
-    lines: 60 # default 60
-    statements: 40 # default 40
-  gofumpt:
-    extra-rules: true
-  depguard:
+  settings:
+    depguard:
+      rules:
+        main:
+          deny:
+            - pkg: github.com/instana/testify
+              desc: not allowed
+            - pkg: github.com/pkg/errors
+              desc: Should be replaced by standard lib errors package
+    forbidigo:
+      forbid:
+        - pattern: ^print(ln)?$
+        - pattern: ^panic$
+        - pattern: ^spew\.Print(f|ln)?$
+        - pattern: ^spew\.Dump$
+    funlen:
+      lines: -1 # default 60
+      statements: 40 # default 40
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    gocritic:
+      disabled-checks:
+        - sloppyReassign
+        - rangeValCopy
+        - octalLiteral
+        - paramTypeCombine # already handle by gofumpt.extra-rules
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
+      settings:
+        hugeParam:
+          sizeThreshold: 100
+    gocyclo:
+      min-complexity: 16
+    godox:
+      keywords:
+        - FIXME
+    govet:
+      disable:
+        - fieldalignment
+      enable-all: true
+    misspell:
+      locale: US
+    tagalign:
+      align: false
+      order:
+        - long
+        - short
+        - description
+        - xml
+        - json
+        - yaml
+        - yml
+        - toml
+        - mapstructure
+        - url
+
+  exclusions:
+    warn-unused: true
+    presets:
+      - comments
     rules:
-      main:
-        deny:
-          - pkg: "github.com/instana/testify"
-            desc: not allowed
-          - pkg: "github.com/pkg/errors"
-            desc: Should be replaced by standard lib errors package
-  godox:
-    keywords:
-      - FIXME
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - style
-      - performance
-    disabled-checks:
-      - sloppyReassign
-      - rangeValCopy
-      - octalLiteral
-      - paramTypeCombine # already handle by gofumpt.extra-rules
-    settings:
-      hugeParam:
-        sizeThreshold: 100
-  forbidigo:
-    forbid:
-      - '^print(ln)?$'
-      - '^panic$'
-      - '^spew\.Print(f|ln)?$'
-      - '^spew\.Dump$'
-  tagalign:
-    align: false
-    order:
-      - long
-      - short
-      - description
-      - xml
-      - json
-      - yaml
-      - yml
-      - toml
-      - mapstructure
-      - url
+      - linters:
+          - funlen
+        path: (.+)_test.go
+      - path: version.go
+        text: (version|commit|date) is a global variable
+      - path: label/label_test.go
+        text: string `(carotte|courgette|tomate|type/carotte)` has (\d+) occurrences, make it a constant
+    paths:
+      - ^unsecured/
 
 issues:
-  exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
-  exclude-files:
-    - ^unsecured/
-  exclude:
-    - 'ST1000: at least one file in a package should have a package comment'
-    - 'package-comments: should have a package comment'
-  exclude-rules:
-    - path: (.+)_test.go
-      linters:
-        - funlen
-    - path: version.go
-      text: '(version|commit|date) is a global variable'
-    - path: label/label_test.go
-      text: "string `(carotte|courgette|tomate|type/carotte)` has (\\d+) occurrences, make it a constant"
-    - path: gcg.go
-      text: "Function 'main' is too long"
-    - path: version.go
-      text: "use of `fmt.Printf` forbidden by pattern"
-    - path: types/types.go
-      text: 'type assertion must be checked'
-
-run:
-  timeout: 2m
-
-output:
-  show-stats: true

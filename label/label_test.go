@@ -28,7 +28,7 @@ func TestFilterAndTransform(t *testing.T) {
 	names := FilterAndTransform(legumes, All, NameIdentity)
 
 	expected := []string{carotte, courgette, tomate}
-	assert.EqualValues(t, expected, names)
+	assert.Equal(t, expected, names)
 }
 
 func TestFilterByPrefixAndTransform(t *testing.T) {
@@ -52,7 +52,7 @@ func TestFilterByPrefixAndTransform(t *testing.T) {
 	names := FilterAndTransform(legumes, HasPrefix("type/"), NameIdentity)
 
 	expected := []string{carotte}
-	assert.EqualValues(t, expected, names)
+	assert.Equal(t, expected, names)
 }
 
 func TestFilterAndTransformName(t *testing.T) {
@@ -76,7 +76,7 @@ func TestFilterAndTransformName(t *testing.T) {
 	names := FilterAndTransform(legumes, All, TrimPrefix("type/"))
 
 	expected := []string{"carotte", "courgette", "tomate"}
-	assert.EqualValues(t, expected, names)
+	assert.Equal(t, expected, names)
 }
 
 func TestFilterByPrefixAndTransformName(t *testing.T) {
@@ -100,7 +100,7 @@ func TestFilterByPrefixAndTransformName(t *testing.T) {
 	names := FilterAndTransform(legumes, HasPrefix("type/"), TrimPrefix("type/"))
 
 	expected := []string{"carotte", "courgette"}
-	assert.EqualValues(t, expected, names)
+	assert.Equal(t, expected, names)
 }
 
 func TestFilteredByExistingSuffix(t *testing.T) {
