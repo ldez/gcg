@@ -8,7 +8,7 @@ require (
 	github.com/google/go-github/v66 v66.0.0
 	github.com/ogier/pflag v0.0.1
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/oauth2 v0.28.0
+	golang.org/x/oauth2 v0.29.0
 )
 
 require (
