@@ -89,30 +89,38 @@ func Generate(config *types.Configuration) error {
 	}
 
 	issues := searchAllIssues(ctx, client, query, searchOptions, config)
+
 	return display(config, issues, commitCurrentRef)
 }
 
 func searchAllIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions, config *types.Configuration) []*github.Issue {
 	var allIssues []*github.Issue
+
 	for {
 		issuesSearchResult, resp, err := client.Search.Issues(ctx, query, searchOptions)
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		for _, issue := range issuesSearchResult.Issues {
 			if containsLeastOneLabel(issue.Labels, config.LabelExcludes) {
 				if config.Debug {
 					log.Println("Exclude:", issue.GetNumber(), issue.GetTitle())
 				}
-			} else {
-				allIssues = append(allIssues, issue)
+
+				continue
 			}
+
+			allIssues = append(allIssues, issue)
 		}
+
 		if resp.NextPage == 0 {
 			break
 		}
+
 		searchOptions.Page = resp.NextPage
 	}
+
 	return allIssues
 }
 
@@ -134,6 +142,7 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 			summary.Other = makeAndAppendIssueSummary(summary.Other, issue, config)
 		}
 	}
+
 	sort.Sort(types.ByLabel(summary.Documentation))
 	sort.Sort(types.ByLabel(summary.Enhancement))
 	sort.Sort(types.ByLabel(summary.Bug))
@@ -149,11 +158,13 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 	summary.PreviousRefName = config.PreviousRef
 
 	tmplContent := viewTemplate
+
 	if config.TemplateFile != "" {
 		raw, err := os.ReadFile(config.TemplateFile)
 		if err != nil {
 			return err
 		}
+
 		tmplContent = string(raw)
 	}
 
@@ -161,13 +172,17 @@ func display(config *types.Configuration, issues []*github.Issue, commitCurrentR
 	tmplt := template.Must(base.Parse(tmplContent))
 
 	var wr io.Writer
+
 	if config.OutputType == "file" {
 		var file *os.File
+
 		file, err := os.Create(config.FileName)
 		if err != nil {
 			return err
 		}
+
 		defer func() { _ = file.Close() }()
+
 		wr = file
 	} else {
 		wr = os.Stdout
@@ -182,6 +197,7 @@ func newGitHubClient(ctx context.Context, token string) *github.Client {
 	}
 
 	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+
 	return github.NewClient(oauth2.NewClient(ctx, ts))
 }
 
@@ -215,6 +231,7 @@ func makeAndAppendIssueSummary(summaries []types.IssueSummary, issue *github.Iss
 		FilteredLabelNames: lbl,
 		Issue:              issue,
 	}
+
 	return append(summaries, is)
 }
 
@@ -222,17 +239,18 @@ func trimAllPrefix(options *types.DisplayLabelOptions) label.NameTransform {
 	if options != nil {
 		return label.TrimAllPrefix(options.TrimmedPrefixes)
 	}
+
 	return label.NameIdentity
 }
 
 func labelFilter(options *types.DisplayLabelOptions) label.Predicate {
-	if options != nil {
-		return label.AllMatch(
-			label.FilteredBy(label.HasPrefix, options.FilteredPrefixes),
-			label.ExcludedBy(label.HasPrefix, options.ExcludedPrefixes),
-			label.FilteredBy(label.HasSuffix, options.FilteredSuffixes),
-			label.ExcludedBy(label.HasSuffix, options.ExcludedSuffixes))
+	if options == nil {
+		return label.All
 	}
 
-	return label.All
+	return label.AllMatch(
+		label.FilteredBy(label.HasPrefix, options.FilteredPrefixes),
+		label.ExcludedBy(label.HasPrefix, options.ExcludedPrefixes),
+		label.FilteredBy(label.HasSuffix, options.FilteredSuffixes),
+		label.ExcludedBy(label.HasSuffix, options.ExcludedSuffixes))
 }

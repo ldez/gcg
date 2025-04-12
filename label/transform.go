@@ -21,9 +21,11 @@ func TrimPrefix(prefix string) NameTransform {
 func Chain(nts ...NameTransform) NameTransform {
 	return func(name string) string {
 		result := name
+
 		for _, nt := range nts {
 			result = nt(result)
 		}
+
 		return result
 	}
 }

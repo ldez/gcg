@@ -69,6 +69,7 @@ type LabelDisplayOptionsParser DisplayLabelOptions
 // Set a DisplayLabelOptions.
 func (c *LabelDisplayOptionsParser) Set(s string) error {
 	log.Println("sure?:", s)
+
 	return nil
 }
 
@@ -89,12 +90,15 @@ type SliceString []string
 // Set a SliceString.
 func (c *SliceString) Set(rawValue string) error {
 	values := strings.Split(rawValue, ",")
+
 	if len(values) == 0 {
 		return fmt.Errorf("bad Value format: %s", rawValue)
 	}
+
 	for _, value := range values {
 		*c = append(*c, value)
 	}
+
 	return nil
 }
 
@@ -120,8 +124,10 @@ func (a ByLabel) Less(i, j int) bool {
 	if a[i].FilteredLabelNames == "" && a[j].FilteredLabelNames != "" {
 		return false
 	}
+
 	if a[j].FilteredLabelNames == "" && a[i].FilteredLabelNames != "" {
 		return true
 	}
+
 	return a[i].FilteredLabelNames < a[j].FilteredLabelNames
 }

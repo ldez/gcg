@@ -81,6 +81,7 @@ The generator use only Pull Requests.`,
 		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
+
 		log.Fatalf("Error parsing command: %s\n", err)
 	}
 
@@ -97,6 +98,7 @@ The generator use only Pull Requests.`,
 		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
+
 		log.Fatalf("Error reading TOML config file %s : %v\n", toml.ConfigFileUsed(), err)
 	}
 
@@ -104,6 +106,7 @@ The generator use only Pull Requests.`,
 		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
+
 		log.Fatalf("Error: %v\n", err)
 	}
 }
@@ -113,14 +116,17 @@ func validateConfig(config *types.Configuration) error {
 	if err != nil {
 		return err
 	}
+
 	err = required(config.PreviousRef, "previous-ref")
 	if err != nil {
 		return err
 	}
+
 	err = required(config.Owner, "owner")
 	if err != nil {
 		return err
 	}
+
 	return required(config.RepositoryName, "repo-name")
 }
 
@@ -128,5 +134,6 @@ func required(field, fieldName string) error {
 	if field == "" {
 		return fmt.Errorf("%s is mandatory", fieldName)
 	}
+
 	return nil
 }

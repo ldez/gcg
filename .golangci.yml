@@ -33,7 +33,6 @@ linters:
     - tparallel
     - varnamelen
     - wrapcheck
-    - wsl
 
   settings:
     depguard:
