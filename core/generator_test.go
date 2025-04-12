@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLabelFilter(t *testing.T) {
+func Test_labelFilter(t *testing.T) {
 	prefix := "type"
 	suffix := "foo"
 
@@ -17,10 +17,7 @@ func TestLabelFilter(t *testing.T) {
 		FilteredSuffixes: []string{suffix},
 	}
 
-	carotte := "type/carotte/fii"
-	ghLabelCarotte := &github.Label{
-		Name: &carotte,
-	}
+	ghLabelCarotte := &github.Label{Name: github.Ptr("type/carotte/fii")}
 
 	assert.False(t, labelFilter(options)(ghLabelCarotte))
 }
