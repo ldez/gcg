@@ -99,13 +99,13 @@ linters:
     presets:
       - comments
     rules:
-      - linters:
+      - path: (.+)_test.go
+        linters:
           - funlen
-        path: (.+)_test.go
+      - path: (.+)_test.go
+        text: string `(carotte|courgette|tomate|type/carotte)` has (\d+) occurrences, make it a constant
       - path: version.go
         text: (version|commit|date) is a global variable
-      - path: label/label_test.go
-        text: string `(carotte|courgette|tomate|type/carotte)` has (\d+) occurrences, make it a constant
     paths:
       - ^unsecured/
 
