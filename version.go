@@ -3,16 +3,38 @@ package main
 import (
 	"fmt"
 	"runtime"
+	"runtime/debug"
+)
+
+const (
+	defaultVersion = "dev"
+	unknownInfo    = "unknown"
 )
 
 var (
-	version = "dev"
-	commit  = "I don't remember exactly"
-	date    = "I don't remember exactly"
+	version = defaultVersion
+	commit  = unknownInfo
+	date    = unknownInfo
 )
 
 // DisplayVersion Displays version.
 func DisplayVersion() {
+	info, ok := debug.ReadBuildInfo()
+	if ok {
+		if version == defaultVersion && info.Main.Version != "" {
+			version = info.Main.Version
+		}
+
+		for _, setting := range info.Settings {
+			switch {
+			case setting.Key == "vcs.time" && date == unknownInfo:
+				date = setting.Value
+			case setting.Key == "vcs.revision" && commit == unknownInfo:
+				commit = setting.Value
+			}
+		}
+	}
+
 	fmt.Printf(`gcg:
  version     : %s
  commit      : %s
