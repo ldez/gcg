@@ -112,27 +112,15 @@ The generator use only Pull Requests.`,
 }
 
 func validateConfig(config *types.Configuration) error {
-	err := required(config.CurrentRef, "current-ref")
-	if err != nil {
-		return err
-	}
-
-	err = required(config.PreviousRef, "previous-ref")
-	if err != nil {
-		return err
-	}
-
-	err = required(config.Owner, "owner")
-	if err != nil {
-		return err
-	}
-
-	return required(config.RepositoryName, "repo-name")
-}
-
-func required(field, fieldName string) error {
-	if field == "" {
-		return fmt.Errorf("%s is mandatory", fieldName)
+	for fieldName, value := range map[string]string{
+		"current-ref":  config.CurrentRef,
+		"previous-ref": config.PreviousRef,
+		"owner":        config.Owner,
+		"repo-name":    config.RepositoryName,
+	} {
+		if value == "" {
+			return fmt.Errorf("%s is mandatory", fieldName)
+		}
 	}
 
 	return nil
