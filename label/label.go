@@ -1,7 +1,7 @@
 package label
 
 import (
-	"github.com/google/go-github/v66/github"
+	"github.com/google/go-github/v71/github"
 )
 
 // FilterAndTransform Filter and transform labels.
