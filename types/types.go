@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/google/go-github/v71/github"
+	"github.com/google/go-github/v78/github"
 )
 
 // NoOption empty struct.
@@ -74,13 +74,13 @@ func (c *LabelDisplayOptionsParser) Set(s string) error {
 }
 
 // Get a DisplayLabelOptions.
-func (c *LabelDisplayOptionsParser) Get() interface{} { return DisplayLabelOptions(*c) }
+func (c *LabelDisplayOptionsParser) Get() any { return DisplayLabelOptions(*c) }
 
 // String a string representation of DisplayLabelOptions.
 func (c *LabelDisplayOptionsParser) String() string { return fmt.Sprintf("%v", *c) }
 
 // SetValue a DisplayLabelOptions.
-func (c *LabelDisplayOptionsParser) SetValue(val interface{}) {
+func (c *LabelDisplayOptionsParser) SetValue(val any) {
 	*c = LabelDisplayOptionsParser(val.(DisplayLabelOptions)) //nolint:forcetypeassert // not useful here.
 }
 
@@ -103,7 +103,7 @@ func (c *SliceString) Set(rawValue string) error {
 }
 
 // Get a SliceString.
-func (c *SliceString) Get() interface{} { return []string(*c) }
+func (c *SliceString) Get() any { return []string(*c) }
 
 // String a string representation of SliceString.
 func (c *SliceString) String() string {
@@ -111,7 +111,7 @@ func (c *SliceString) String() string {
 }
 
 // SetValue a SliceString.
-func (c *SliceString) SetValue(val interface{}) {
+func (c *SliceString) SetValue(val any) {
 	*c = SliceString(val.([]string)) //nolint:forcetypeassert // not useful here.
 }
 

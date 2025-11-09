@@ -56,8 +56,8 @@ The generator use only Pull Requests.`,
 	}
 
 	flag := flaeg.New(rootCmd, os.Args[1:])
-	flag.AddParser(reflect.TypeOf(types.DisplayLabelOptions{}), &types.LabelDisplayOptionsParser{})
-	flag.AddParser(reflect.TypeOf([]string{}), &types.SliceString{})
+	flag.AddParser(reflect.TypeFor[types.DisplayLabelOptions](), &types.LabelDisplayOptionsParser{})
+	flag.AddParser(reflect.TypeFor[[]string](), &types.SliceString{})
 
 	versionCmd := &flaeg.Command{
 		Name:                  "version",

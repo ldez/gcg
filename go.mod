@@ -1,14 +1,14 @@
 module github.com/ldez/gcg
 
-go 1.24.0
+go 1.25.0
 
 require (
 	github.com/containous/flaeg v1.4.1
 	github.com/containous/staert v3.1.2+incompatible
-	github.com/google/go-github/v71 v71.0.0
+	github.com/google/go-github/v78 v78.0.0
 	github.com/ogier/pflag v0.0.1
-	github.com/stretchr/testify v1.10.0
-	golang.org/x/oauth2 v0.29.0
+	github.com/stretchr/testify v1.11.1
+	golang.org/x/oauth2 v0.33.0
 )
 
 require (

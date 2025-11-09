@@ -33,6 +33,8 @@ linters:
     - tparallel
     - varnamelen
     - wrapcheck
+    - noinlineerr
+    - wsl # deprecated
 
   settings:
     depguard:
@@ -103,8 +105,20 @@ linters:
           - funlen
       - path: (.+)_test.go
         text: string `(carotte|courgette|tomate|type/carotte)` has (\d+) occurrences, make it a constant
+        linters:
+          - goconst
       - path: version.go
         text: (version|commit|date) is a global variable
+        linters:
+          - gochecknoglobals
+      - path: (.+)_test.go
+        text: "dupOption:"
+        linters:
+         - gocritic
+      - path: types/.+
+        text: "var-naming: avoid meaningless package names"
+        linters:
+         - revive
     paths:
       - ^unsecured/
 
