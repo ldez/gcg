@@ -5,6 +5,10 @@ on:
     tags:
       - v*
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
 
   release:
@@ -15,7 +19,7 @@ jobs:
       CGO_ENABLED: 0
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -30,5 +34,5 @@ jobs:
           version: latest
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUR_KEY: ${{ secrets.AUR_KEY }}
