@@ -35,6 +35,7 @@ linters:
     - wrapcheck
     - noinlineerr
     - wsl # deprecated
+    - gomodguard # deprecated
 
   settings:
     depguard:
@@ -57,6 +58,7 @@ linters:
     goconst:
       min-len: 3
       min-occurrences: 3
+      ignore-tests: true
     gocritic:
       disabled-checks:
         - sloppyReassign
@@ -115,10 +117,6 @@ linters:
         text: "dupOption:"
         linters:
          - gocritic
-      - path: types/.+
-        text: "var-naming: avoid meaningless package names"
-        linters:
-         - revive
     paths:
       - ^unsecured/
 
